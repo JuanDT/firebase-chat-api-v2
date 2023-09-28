@@ -1,0 +1,83 @@
+
+   <div class="container mb-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-4">
+                <div class="row mt-5">
+                    <div class="col text-center mb-2">
+                        <a routerLink="/start"><img src="../../../assets/images/logoChatTransp.png" width="30%"></a> 
+                     </div>           
+                </div>
+                <br>
+                <div class="card mt-2">
+
+                    <div class="row">
+                        <div class="col-11" style="background-color: rgb(47, 62, 121); margin-left: 11px; width: 95%; border-radius: 3px;">
+                            <div class="mt-1">
+                                <h4 class="card-title text-center" style="color: aliceblue;">Crear cuenta</h4>
+                            </div>                         
+                        </div>
+                    </div>
+                      
+
+                    <div class="card-body">
+                        
+                        <br>
+                        <form [formGroup]="formReg" (ngSubmit)="onSubmit()">
+                            <div class="mb-3">
+                                <label for="usuario" class="form-label">Email</label>
+                                <input type="email" class="form-control custom-input" id="usuario" formControlName="email">
+                                <div *ngIf="registrationError" class="text-danger">
+                                    {{ registrationError }}
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="contrasena" class="form-label">Contraseña</label>
+                                <input type="password" class="form-control custom-input" id="contrasena" formControlName="password">
+                                <div *ngIf="showPasswordLengthError" class="text-danger">
+                                    {{ passwordLengthError }}
+                                  </div>
+                            </div>
+                            <br>
+                            <div class="d-grid">
+                                <button class="btn btn-primary" type="submit">Registrarse</button>
+                            </div>
+                        </form>
+                                    <!-- Ventana emergente de registro exitoso -->
+                        <div class="popup" *ngIf="showSuccessPopup">
+                            <div class="popup-content mb-4" >
+                                <div>
+                                    <img class="verificado" src="../../../assets/images/verificado.gif" alt="">
+                                </div>
+                            <strong><p>{{ successMessage }}</p></strong>
+                            <button class="btn  col-4 mb-4" (click)="closePopup()" style="background-color: rgb(85, 109, 202);">Volver al login</button>
+                            
+                            </div>
+                        
+                        </div>
+                       
+                        <div class="text-center mt-4">
+                            <div class="small-text">
+                                <button (click)="onClick()" class="transparent-button">
+                                    <img src="https://premium-graphic.com/wp-content/uploads/2020/12/Download-Google-icon-vector-logo.png" alt="" width="50px">
+                                    <p class="small-text">Continue with Google</p>
+                                </button>
+                            </div>
+                        </div>
+                                              
+                        <p class="text-center mt-4">¿Ya tienes una cuenta?<a style="text-decoration: none" routerLink="/login"> Iniciar sesión</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+
+
+    <app-footer></app-footer>
+     
+    
+        
+
+
+

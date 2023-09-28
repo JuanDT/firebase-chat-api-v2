@@ -1,0 +1,110 @@
+    <div class="container mb-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-4">
+                <div class="row mt-5">
+                    <div class="col text-center mb-2">
+                        <a routerLink="/start"><img src="../../../assets/images/logoChatTransp.png" width="30%"></a> 
+                     </div>            
+                </div>
+                <br>
+
+                <div class="card mt-2">
+
+                    <div class="row">
+                        <div class="col-11" style="background-color: rgb(47, 62, 121); margin-left: 11px; width: 95%; border-radius: 3px;">
+                            <div class="mt-1">
+                                <h4 class="card-title text-center" style="color: aliceblue;">Login</h4>
+                            </div>                         
+                        </div>
+                    </div>
+                    
+
+                    <div class="card-body">
+                        
+                        
+                        <br>
+                        <form [formGroup]="formLogin" (ngSubmit)="onSubmit()">
+                            <div class="mb-3">
+                                <label for="usuario" class="form-label">Email</label>
+                                <input type="email" class="form-control custom-input" id="usuario" formControlName="email">                         
+                            </div>
+                            
+                            
+                            <div class="mb-2">
+                                <label for="contrasena" class="form-label">Contraseña</label>
+                                <input type="password" class="form-control custom-input" id="contrasena" formControlName="password">
+                                <div *ngIf="loginError" class="text-danger">
+                                    {{ loginError }}
+                                </div>
+                                <div class="d-flex justify-content-end">
+                                    <p class="text-center mt-4 "><a class="link" style="color: #007BFF; 
+                                        text-decoration: none; 
+                                        cursor: pointer; " (click)="openForgotPasswordModal()" > Olvidé mi constraseña</a></p>                                               
+                                </div>
+
+                                
+
+                            </div>
+                            
+                            <div class="d-grid">
+                                <button class="btn btn-primary" type="submit">Iniciar</button>
+                            </div>
+                            
+                        </form>
+
+                        <!-- Ventana emergente para restablecer la contraseña -->
+                        <div *ngIf="isForgotPasswordModalOpen" class="popup">
+
+                            <div class="popup-content">
+                            <h4 class="text-center">Restablecer Contraseña</h4>
+                            <br>
+                     
+                            <div class="form-group" >                                
+                               
+                                <div class="row justify-content-center">
+                                    <div class="col-9">
+                                        <input type="email" class="col-7 form-control" placeholder="Ingrese su email" id="resetEmail" [(ngModel)]="email">
+                                    </div>
+                                </div>
+                                <div class="mt-1">
+                                    <div *ngIf="forgotPasswordError" class="text-danger">
+                                        <p style="font-size: 90%;">{{ forgotPasswordError }}</p>
+                                    </div>
+                                    <div *ngIf="passwordSendSucces" > 
+                                        <p style="font-size: 90%; color: rgba(0, 122, 28, 0.704);">{{ passwordSendSucces }}</p> 
+                                    </div>  
+                                </div>
+                                 
+                                
+                                <div class="text-center mt-4">
+                                    <button class="btn btn-primary" style="width: 25%;" *ngIf="isOkButtonEnable" (click)="enabledOkButton()">Ok</button>
+                                    <button class="btn btn-primary btn-spacing" *ngIf="isSendButtonEnable" (click)="sendPasswordResetEmail2(email)">Enviar Correo</button>
+                                    <button class="btn btn-secondary btn-spacing" *ngIf="isCancelButtonEnable" (click)="closeForgotPasswordModal()">Cancelar</button>
+                                  </div>
+                                
+    
+                                </div>                         
+                            </div>                     
+                            
+                            
+                        </div>
+                        <div class="text-center mt-4">
+                            <div class="small-text">
+                                <button (click)="onClick()" class="transparent-button">
+                                    <img src="https://premium-graphic.com/wp-content/uploads/2020/12/Download-Google-icon-vector-logo.png" alt="" width="50px">
+                                    <p class="small-text">Or sign in with Google</p>
+                                </button>
+                            </div>
+                        </div>
+
+                        <p class="text-center mt-4">¿No tienes una cuenta?<a style="text-decoration: none" routerLink="/register"> Registrarse</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>      
+    </div>
+
+    <app-footer></app-footer>
+
+
+
