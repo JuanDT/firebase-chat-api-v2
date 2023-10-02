@@ -23,25 +23,51 @@
                         
                         <br>
                         <form [formGroup]="formReg" (ngSubmit)="onSubmit()">
+
+                            <!-- Campo de nickname -->
                             <div class="mb-3">
-                                <label for="usuario" class="form-label">Email</label>
-                                <input type="email" class="form-control custom-input" id="usuario" formControlName="email">
-                                <div *ngIf="registrationError" class="text-danger">
-                                    {{ registrationError }}
+                                <label for="nickname" class="form-label">Nickname</label>
+                                <input type="text" class="form-control custom-input" id="nickname" formControlName="displayName">
+                                <div *ngIf="registrationError" class="text-danger">{{ registrationError }}</div>
+                              </div>
+
+                            <!-- Campo de email -->
+                            <div class="mb-3">
+                              <label for="usuario" class="form-label">Email</label>
+                              <input type="email" class="form-control custom-input" id="usuario" formControlName="email">
+                              <div *ngIf="registrationError" class="text-danger">{{ registrationError }}</div>
+                            </div>
+                          
+                            <!-- Campo de contraseña -->
+                            <div class="mb-3">
+                              <label for="contrasena" class="form-label">Contraseña</label>
+                              <input type="password" class="form-control custom-input" id="contrasena" formControlName="password">
+                              <div *ngIf="showPasswordLengthError" class="text-danger">{{ passwordLengthError }}</div>
+                            </div>
+                          
+                            <!-- Campo de foto de perfil -->
+                            <div class="mb-3">
+                                <label for="fotoPerfil" class="form-label">Foto de Perfil</label>
+                                <input type="file" class="form-control" id="photo" formControlName="photo" (change)="onFileSelected($event)">
+                                
+                                <!-- Visualización de la imagen seleccionada -->
+                                <div *ngIf="formReg.value.photo">
+                                <img [src]="formReg.value.photoUrl" alt="Foto de Perfil" class="mt-2 mb-2" style="max-width: 100px;" >
+                                <button class="btn btn-danger btn-sm" (click)="onDeletePhoto()">Eliminar Foto</button>
                                 </div>
                             </div>
-                            <div class="mb-3">
-                                <label for="contrasena" class="form-label">Contraseña</label>
-                                <input type="password" class="form-control custom-input" id="contrasena" formControlName="password">
-                                <div *ngIf="showPasswordLengthError" class="text-danger">
-                                    {{ passwordLengthError }}
-                                  </div>
-                            </div>
+                            
+                              <!-- Botón para reiniciar la selección de archivos -->
+                              <button *ngIf="formReg.value.photo" class="btn btn-warning btn-sm" (click)="onResetFile()">Cambiar Foto</button>
+                                                             
                             <br>
+                          
+                            <!-- Botón de registro -->
                             <div class="d-grid">
-                                <button class="btn btn-primary" type="submit">Registrarse</button>
+                              <button class="btn btn-primary" type="submit">Registrarse</button>
                             </div>
-                        </form>
+                          </form>
+                          
                                     <!-- Ventana emergente de registro exitoso -->
                         <div class="popup" *ngIf="showSuccessPopup">
                             <div class="popup-content mb-4" >

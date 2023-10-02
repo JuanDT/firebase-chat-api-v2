@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, signInWithPopup, GoogleAuthProvider, fetchSignInMethodsForEmail, user } from '@angular/fire/auth';
 import { Observable } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
+import { getStorage, ref, uploadBytes, getDownloadURL  } from 'firebase/storage';
+ 
 
 
 
@@ -21,9 +23,12 @@ export class UserService {
     return this.email;
   }
 
-  register({ email, password }: any) {
+  getUser(){
+    return 
+  }
 
-    
+  register({ email, password }: any) {
+ 
     return createUserWithEmailAndPassword(this.auth, email, password);
   }
 
@@ -44,23 +49,21 @@ export class UserService {
     });
     }
   
-    
   }
-  
+
+ 
+
   async login2({ email, password }: any): Promise<any> {
     console.log(email)
-    // Verificar si ya existe un token activo para este correo electrónico
+
     const existingToken = this.userTokens.get(email);
     console.log(existingToken+" , "+email)
     if (existingToken) {
-      // Ya existe una sesión activa con este correo electrónico
       return Promise.reject('Ya existe una sesión activa con este correo electrónico.');
     }else{
       try {
-        // Intentar iniciar sesión
         const userCredential = await signInWithEmailAndPassword(this.auth, email, password);
   
-        // Generar un nuevo token único para el usuario y asociarlo al correo electrónico
         const userToken = this.generateUniqueToken();
         this.userTokens.set(userToken, email);
         this.email = email;
@@ -69,12 +72,13 @@ export class UserService {
         return userCredential;        
   
       } catch (error) {
-        // Manejo de errores
       }
     }
 
     
   }
+
+  
   printUserTokens() {
     console.log('Contenido de userTokens:');
     this.userTokens.forEach((token, email) => {

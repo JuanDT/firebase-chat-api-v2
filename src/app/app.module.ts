@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -16,8 +15,6 @@ import { SobreNosotrosComponent } from './components/sobre-nosotros/sobre-nosotr
 import { StartComponent } from './components/start/start.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 
-
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -30,13 +27,14 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
     PageNotFoundComponent
   ],
   imports: [
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideAuth(() => getAuth()),
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     NgbModule,
-    ReactiveFormsModule,
-    provideFirebaseApp(() => initializeApp(environment.firebase)),
-    provideAuth(() => getAuth())
+    ReactiveFormsModule
+    
   ],
   providers: [],
   bootstrap: [AppComponent]

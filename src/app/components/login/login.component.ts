@@ -22,8 +22,8 @@ export class LoginComponent implements OnInit {
   isOkButtonEnable: boolean = false;
   isSendButtonEnable: boolean = true;
   isCancelButtonEnable: boolean = true;
-  isForgotPasswordModalOpen: boolean = false; // Controla la visibilidad de la ventana emergente
-  forgotPasswordError: string | null = null; // Almacena el mensaje de error
+  isForgotPasswordModalOpen: boolean = false; 
+  forgotPasswordError: string | null = null; 
   passwordSendSucces: string | null = null;
 
 
@@ -43,12 +43,12 @@ export class LoginComponent implements OnInit {
  // Método para abrir la ventana emergente
  openForgotPasswordModal() {
   this.isForgotPasswordModalOpen = true;
-  this.forgotPasswordError = null; // Restablece el mensaje de error
+  this.forgotPasswordError = null; 
   this.passwordSendSucces = null
 }
 
   sendPasswordResetEmail2(email: string) {
-    this.forgotPasswordError = null; // Restablece el mensaje de error
+    this.forgotPasswordError = null; 
     this.passwordSendSucces = null;
     this.isOkButtonEnable= false;
     this.isSendButtonEnable= true;
@@ -56,25 +56,24 @@ export class LoginComponent implements OnInit {
 
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
-    // Verifica si el correo está asociado a una cuenta
+    
     
     if (!email.match(emailRegex)) {
-      // El correo electrónico no es válido
+     
       this.forgotPasswordError = 'Por favor, ingrese una dirección de correo electrónico válida.';
     } else {
 
      fetchSignInMethodsForEmail(this.auth,email)
       .then((methods) => {
         if (methods.length === 0) {
-          // No se encontró una cuenta con este correo
+         
           this.forgotPasswordError = 'No se encontró una cuenta con este correo electrónico.';
         } else {
-          // Envia el correo de restablecimiento de contraseña
+          
           
             sendPasswordResetEmail(this.auth,email)
             .then(() => {
-              // Éxito, el correo se envió correctamente
-              // Puedes mostrar un mensaje de éxito aquí si lo deseas
+              
               this.isOkButtonEnable = true;
               this.isSendButtonEnable = false;
               this.isCancelButtonEnable= false;
@@ -82,7 +81,7 @@ export class LoginComponent implements OnInit {
                          
             })
             .catch((error) => {
-              // Error al enviar el correo de restablecimiento de contraseña
+             
               console.error('Error al enviar el correo de restablecimiento:', error);
             });
         }
