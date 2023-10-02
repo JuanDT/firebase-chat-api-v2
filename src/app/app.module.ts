@@ -14,6 +14,8 @@ import { FooterComponent } from './components/footer/footer.component';
 import { SobreNosotrosComponent } from './components/sobre-nosotros/sobre-nosotros.component';
 import { StartComponent } from './components/start/start.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import { provideFirestore,getFirestore } from '@angular/fire/firestore';
+import { provideStorage,getStorage } from '@angular/fire/storage';
 
 @NgModule({
   declarations: [
@@ -33,7 +35,9 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
     AppRoutingModule,
     FormsModule,
     NgbModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    provideFirestore(() => getFirestore()),
+    provideStorage(() => getStorage())
     
   ],
   providers: [],

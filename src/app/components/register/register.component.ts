@@ -32,7 +32,7 @@ export class RegisterComponent  implements OnInit {
       displayName: new FormControl('',[Validators.required, Validators.required]),
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required, Validators.minLength(6)]),
-      photo: new FormControl('')
+      photo: new FormControl()
     });
 
     
@@ -81,7 +81,7 @@ export class RegisterComponent  implements OnInit {
                 console.log("storage")
                 const storage = getStorage();
                 console.log("storage2")
-                const storageRef = ref(storage, `profile_photos/${photo}`);
+                const storageRef = ref(storage, `profile_photos/${user.uid}`);
                
                 uploadBytes(storageRef, photo).then(() => {
 
