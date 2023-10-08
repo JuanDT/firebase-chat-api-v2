@@ -4,8 +4,10 @@ import { Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import { Auth, User, getAuth, provideAuth, createUserWithEmailAndPassword, updateProfile } from '@angular/fire/auth';
 import { getStorage,  ref, uploadBytes } from 'firebase/storage';
-import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { getApp, initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { environment } from 'src/environments/environment';
+import { Usuario } from 'src/app/model/usuario';
+import { addDoc, collection, doc, getFirestore, setDoc } from 'firebase/firestore';
 
 @Component({
   selector: 'app-register',
@@ -14,6 +16,7 @@ import { environment } from 'src/environments/environment';
 })
 export class RegisterComponent  implements OnInit {
   formReg: FormGroup;
+  formData: FormData = new FormData();
   registrationError: string | null = null;
   passwordLengthError: string | null = null;
   showPasswordLengthError = false;
@@ -21,18 +24,19 @@ export class RegisterComponent  implements OnInit {
   showSuccessPopup = false;
   successMessage: string = '';
 
+  file: any;
 
 
   constructor(
     private userService: UserService,
-    private router: Router
+    private router: Router,
+    private auth: Auth
   ) {
     
     this.formReg = new FormGroup({
       displayName: new FormControl('',[Validators.required, Validators.required]),
       email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', [Validators.required, Validators.minLength(6)]),
-      photo: new FormControl()
+      password: new FormControl('', [Validators.required, Validators.minLength(6)]), 
     });
 
     
@@ -57,9 +61,8 @@ export class RegisterComponent  implements OnInit {
     const email = this.formReg.value.email;
     const password = this.formReg.value.password;
     const displayName = this.formReg.value.displayName;
-    const photo = this.formReg.value.photo;
+    const photo = this.formData?.get('photo');
     console.log('Estado del formulario:', this.formReg.value);
-
 
     if (!this.userService.checkPasswordLength(password)) {
       this.showPasswordLengthError = true;
@@ -72,18 +75,17 @@ export class RegisterComponent  implements OnInit {
           const user = userCredential.user as User;
 
           updateProfile(user, { displayName: displayName })
-            .then(() => {
+            .then(async () => {
               if (photo) {
                 console.log("hay imagen")
-
-                
-
+                const app = initializeApp(environment.firebase)
                 console.log("storage")
-                const storage = getStorage();
+                const storage = getStorage(app);
                 console.log("storage2")
                 const storageRef = ref(storage, `profile_photos/${user.uid}`);
-               
-                uploadBytes(storageRef, photo).then(() => {
+                const photoBlob = new Blob([photo as BlobPart], { type: 'image/jpeg' }); 
+
+                uploadBytes(storageRef, photoBlob).then(() => {
 
                   console.log('Usuario registrado con nombre y foto de perfil:', user);
                   this.showSuccessPopup = true;
@@ -98,6 +100,24 @@ export class RegisterComponent  implements OnInit {
                 this.successMessage = 'Registrado correctamente';
                 console.log("No hay imagen")
               }
+              const usuario: Usuario = {
+                uid: user.uid,
+                displayName: displayName,
+                email: email,
+              };
+             
+                const app = initializeApp(environment.firebase);
+                console.log(app)
+
+                
+                const db = getFirestore(getApp());
+                console.log("base de datos"+db)
+                
+               
+                const usuariosCollection = collection(db, 'usuarios', user.uid);
+                console.log("collection")
+                addDoc(usuariosCollection, usuario)          
+                 
             })
             .catch((error) => {
               console.error('Error al actualizar el perfil:', error);
@@ -114,12 +134,13 @@ export class RegisterComponent  implements OnInit {
   }
 
   onFileSelected(event: any) {
-    const inputElement = event.target as HTMLInputElement;
-  const file = inputElement.files?.[0]; 
-
-  if (file) {
-    this.formReg.patchValue({ photo: file }); 
-  }
+      
+      this.file = event.target.files[0]; 
+      
+      this.formData.append('photo', this.file);
+      console.log("archivo"+this.file)
+    
+    
   }
 
   onDeletePhoto() {
@@ -140,10 +161,28 @@ export class RegisterComponent  implements OnInit {
 
   onClick() {
     this.userService.loginWithGoogle()
-      .then(response => {
+      .then((response) => {
+        // La autenticación con Google fue exitosa
         console.log(response);
-        this.router.navigate(['/main']);
+  
+        // Agregar el usuario a la colección de usuarios
+        const user = this.auth.currentUser; // Asumiendo que tienes un método para obtener el usuario autenticado
+  
+        if (user) {
+          // Aquí puedes utilizar un servicio o una función para agregar el usuario a la colección
+          // Por ejemplo, si tienes un servicio que se encarga de manejar la colección de usuarios:
+          //this.userService.addUserToCollection(user);
+  
+          // Luego, redirige al dashboard o a donde desees
+          this.router.navigate(['/dashboard']);
+        } else {
+          console.error('No se pudo obtener el usuario autenticado.');
+        }
       })
-      .catch(error => console.log(error))
+      .catch((error) => {
+        // Maneja el error si la autenticación con Google falla
+        console.log(error);
+      });
   }
+  
 }

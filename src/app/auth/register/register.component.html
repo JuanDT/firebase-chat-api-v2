@@ -48,7 +48,7 @@
                             <!-- Campo de foto de perfil -->
                             <div class="mb-3">
                                 <label for="fotoPerfil" class="form-label">Foto de Perfil</label>
-                                <input type="file" class="form-control" id="photo" formControlName="photo" (change)="onFileSelected($event)">
+                                <input type="file" class="form-control" id="photo"  (change)="onFileSelected($event)">
                                 
                                 <!-- Visualización de la imagen seleccionada -->
                                 <div *ngIf="formReg.value.photo">

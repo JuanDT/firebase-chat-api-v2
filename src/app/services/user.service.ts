@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Auth, createUserWithEmailAndPassword, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, signInWithPopup, GoogleAuthProvider, fetchSignInMethodsForEmail, user } from '@angular/fire/auth';
+import { Auth, createUserWithEmailAndPassword, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, signInWithPopup, GoogleAuthProvider, fetchSignInMethodsForEmail, user, User } from '@angular/fire/auth';
 import { Observable } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
 import { getStorage, ref, uploadBytes, getDownloadURL  } from 'firebase/storage';
 import { Router } from '@angular/router';
+import { Firestore, collection } from '@angular/fire/firestore';
+import { doc, getFirestore, updateDoc } from 'firebase/firestore';
  
 
 
@@ -12,13 +14,16 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class UserService {
-
+  getAuthenticatedUser() {
+    throw new Error('Method not implemented.');
+  }
+ 
   private userTokens: Map<string, string> = new Map();
 
   private email: string | null = null;
  
 
-  constructor(private auth: Auth) { }
+  constructor(private auth: Auth, private firestore: Firestore) { }
 
   getEmail(): string | null {
     return this.email;
@@ -27,6 +32,25 @@ export class UserService {
   getUser(){
     return 
   }
+  async actualizarNickname(nuevoNickname: string): Promise<void> {
+    try {
+
+      const userId = this.auth.currentUser?.uid;
+
+      if (!userId) {
+        throw new Error('Usuario no autenticado');
+      }
+
+      const db = getFirestore();
+      const userRef = doc(db, 'usuarios', userId);
+
+      await updateDoc(userRef, { nickname: nuevoNickname });
+
+    } catch (error) {
+      throw error;
+    }
+  }
+ 
 
   register({ email, password }: any) {
  

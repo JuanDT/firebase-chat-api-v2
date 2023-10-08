@@ -1,1 +1,24 @@
-<p>lista-amigos works!</p>
+<div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <h3>Lista de Amigos</h3>
+        <!-- Buscador de amigos -->
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="Buscar amigo" >
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button" >Buscar</button>
+          </div>
+        </div>
+        <!-- Botón para añadir nuevo amigo (abrir modal) -->
+        <button class="btn btn-primary" >Añadir Amigo</button>
+        <!-- Lista de amigos -->
+        <ul class="list-group mt-3">
+          <li *ngFor="let friend of friends" class="list-group-item">
+            {{ friend.name }}
+            <button class="btn btn-danger float-right" >Eliminar Amigo</button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  

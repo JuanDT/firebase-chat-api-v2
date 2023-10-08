@@ -55,6 +55,24 @@ export class MiPerfilComponent implements OnInit {
     
   }
 
+  actualizarPerfil() {
+    if (!this.userNickname) {
+      console.error('El nickname no puede estar vacío.');
+      return;
+    }
+  
+    this.userService.actualizarNickname(this.userNickname)
+      .then(() => {
+        console.log('Nickname actualizado con éxito.');
+        const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+        userData.nickname = this.userNickname;
+        localStorage.setItem('userData', JSON.stringify(userData));
+      })
+      .catch((error: any) => {
+        console.error('Error al actualizar el nickname:', error);
+      });
+  }
+
   solicitarCambioContrasena() {
     this.userService.sendPasswordResetEmail(this.userCorreo).then(() => {
       console.log('Correo de restablecimiento de contraseña enviado con éxito.');
