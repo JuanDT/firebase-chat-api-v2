@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
+import { UserService } from 'src/app/services/user.service';
+
 @Component({
   selector: 'app-mi-perfil',
   templateUrl: './mi-perfil.component.html',
@@ -7,19 +9,42 @@ import { Auth } from '@angular/fire/auth';
 })
 export class MiPerfilComponent implements OnInit {
   userPhotoURL: any; 
-  userNickname: string | any; // Nombre de usuario (cargar desde el servicio)
-  userPassword = ''; // Contraseña (cargar desde el servicio)
+  userNickname: string | any; 
+  userPassword = ''; 
+  userCorreo: string | any;
+  editMode = false; 
+  cambioContrasenaEnviado: boolean | undefined;
 
-  editMode = false; // Modo de edición (inicialmente desactivado)
-
-  constructor(private auth: Auth){
+  constructor(private auth: Auth, private userService: UserService){
+    this.cambioContrasenaEnviado = false;
   }
 
-
   ngOnInit() {
-    this.userPhotoURL = this.auth.currentUser?.photoURL
-    this.userNickname = this.auth.currentUser?.displayName
-    this.userPassword = '********'
+    const userData = localStorage.getItem('userData');
+
+    if (userData) {
+      const parsedUserData = JSON.parse(userData);
+      this.userPhotoURL = parsedUserData.photoURL;
+      this.userCorreo = parsedUserData.email;
+      this.userNickname = parsedUserData.displayName;
+      this.userPassword = '********'; 
+    } else {
+
+      this.userPhotoURL = this.auth.currentUser?.photoURL;
+      this.userCorreo = this.auth.currentUser?.email;
+
+        const user = this.userService.getUserLogged()
+        this.userNickname = user.nickname;
+        this.userPassword = '********';
+        
+        const userToStore = {
+          photoURL: this.userPhotoURL,
+          email: this.userCorreo,
+          nickname: this.userNickname
+        };
+        localStorage.setItem('userData', JSON.stringify(userToStore));
+      
+    }
   }
 
   toggleEdit() {
@@ -27,12 +52,21 @@ export class MiPerfilComponent implements OnInit {
   }
 
   guardarCambios() {
-    // Lógica para guardar los cambios en el perfil (actualizar en el servicio)
-    // Debes implementar esta función según tus necesidades
+    
   }
 
   solicitarCambioContrasena() {
-    // Lógica para solicitar cambio de contraseña (enviar solicitud al servicio)
-    // Debes implementar esta función según tus necesidades
+    this.userService.sendPasswordResetEmail(this.userCorreo).then(() => {
+      console.log('Correo de restablecimiento de contraseña enviado con éxito.');
+      this.cambioContrasenaEnviado = true;
+      
+      setTimeout(() => {
+        this.cambioContrasenaEnviado = false;
+        this.editMode = false;
+      }, 5000); 
+    })
+    .catch((error) => {
+      console.error('Error al enviar el correo de restablecimiento de contraseña:', error);
+    });
   }
 }

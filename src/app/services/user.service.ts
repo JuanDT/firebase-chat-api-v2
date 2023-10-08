@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, signInWithPopup, GoogleAuthProvider, fetchSignInMethodsForEmail, user } from '@angular/fire/auth';
+import { Auth, createUserWithEmailAndPassword, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, signInWithPopup, GoogleAuthProvider, fetchSignInMethodsForEmail, user } from '@angular/fire/auth';
 import { Observable } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
 import { getStorage, ref, uploadBytes, getDownloadURL  } from 'firebase/storage';
@@ -52,7 +52,11 @@ export class UserService {
   
   }
 
- 
+  sendPasswordResetEmail(email: string) {
+    return sendPasswordResetEmail(this.auth, email);
+  }
+
+
 
   async login2({ email, password }: any): Promise<any> {
     console.log(email)

@@ -1,74 +1,81 @@
-
+<app-navbar></app-navbar>
 <div class="container mt-4">
-    <div class="text-center">
-      <h2>Mi Perfil</h2>
-    </div>
-  
+  <div class="text-center">
+    
+  </div>
+
+  <div class="row-3">
     <!-- Foto de perfil circular -->
-    <div class="profile-picture-container">
-      <img [src]="userPhotoURL" alt="Foto de perfil" class="profile-picture">
+    <div class="col-4 text-center">
+      <img [src]="userPhotoURL" alt="Foto de perfil" style="border-radius: 100%;">
+      <br>
+      <div class="mt-1">
+        <p>{{ userCorreo }}</p>
+      </div>
+      
     </div>
-  
-    <!-- Formulario de perfil -->
-    <form>
-      <!-- Nickname (editable si se activa la edición) -->
+<br>
+    <!-- Información de perfil -->
+    <div class="col-4 align-items-center">
       <div class="form-group">
-        <label for="nickname">Nickname</label>
-        <input
-          type="text"
-          class="form-control"
-          id="nickname"
-          [value]="userNickname"
-          [disabled]="!editMode"
-        >
+        <label for="nickname" style="margin-left: 60px;">Nickname</label>
+        <div class="col-8" style="margin-left: 60px;">
+          <input
+            type="text"
+            class="form-control"
+            id="nickname"
+            [value]="userNickname"
+            [disabled]="!editMode"
+          >
+        </div>
       </div>
-  
-      <!-- Contraseña (editable si se activa la edición) -->
+      <br>
       <div class="form-group">
-        <label for="password">Contraseña</label>
-        <input
-          type="password"
-          class="form-control"
-          id="password"
-          [value]="userPassword"
-          [disabled]="!editMode"
-        >
+        <label for="password" style="margin-left: 60px;">Contraseña</label>
+        <div class="col-8 align-items-center" style="margin-left: 60px;">
+          <input
+            type="password"
+            class="form-control"
+            id="password"
+            [value]="userPassword"
+            [disabled]="true"
+          >
+        </div>
+        <div class="text-center mt-2">
+          <button
+            type="button"
+            class="btn btn-warning"
+            *ngIf="editMode"
+            (click)="solicitarCambioContrasena()"
+          >
+            Cambiar Contraseña
+          </button>
+        </div>
       </div>
-  
-      <!-- Botón para guardar cambios (visible solo en modo edición) -->
-      <div class="text-center">
-        <button
-          type="button"
-          class="btn btn-primary"
-          *ngIf="editMode"
-          (click)="guardarCambios()"
-        >
-          Guardar Cambios
-        </button>
-      </div>
-  
+  <br>
+  <br>
+
       <!-- Botón para activar/desactivar modo edición -->
       <div class="text-center mt-2">
         <button
           type="button"
           class="btn btn-secondary"
+          [class.btn-danger]="editMode"
           (click)="toggleEdit()"
         >
           {{ editMode ? 'Cancelar Edición' : 'Editar Perfil' }}
         </button>
       </div>
-  
-      <!-- Botón para cambiar la contraseña (visible solo en modo edición) -->
+    
+      
+    
+      <!-- Mensaje de cambio de contraseña -->
       <div class="text-center mt-2">
-        <button
-          type="button"
-          class="btn btn-warning"
-          *ngIf="editMode"
-          (click)="solicitarCambioContrasena()"
-        >
-          Cambiar Contraseña
-        </button>
+        <div *ngIf="cambioContrasenaEnviado" class="alert alert-success">
+          Se te ha enviado un mensaje a tu correo para cambiar tu contraseña.
+        </div>
       </div>
-    </form>
+    </div>
+    
   </div>
-  
+</div>

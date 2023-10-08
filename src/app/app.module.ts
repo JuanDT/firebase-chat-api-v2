@@ -18,6 +18,7 @@ import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { provideStorage,getStorage } from '@angular/fire/storage';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { FooterModule } from './footer/footer.module';
+import { ConfirmationModalComponent } from './components/confirmation-modal/confirmation-modal.component';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { FooterModule } from './footer/footer.module';
     AppComponent,     
     SobreNosotrosComponent,
     StartComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    ConfirmationModalComponent
   ],
   imports: [
     provideFirebaseApp(() => initializeApp(environment.firebase)),

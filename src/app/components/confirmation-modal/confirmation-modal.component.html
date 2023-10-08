@@ -1,0 +1,13 @@
+<div>  
+   <div class="modal-header">
+        <h4 class="modal-title">Confirmación</h4>
+        <button type="button" class="close" aria-label="Cerrar" (click)="activeModal.dismiss('Cerrar')">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+  <div class="modal-body">
+            ¿Deseas cerrar sesión?
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger" (click)="activeModal.close('Cerrar')">Cerrar sesión</button>
+ </div>

@@ -6,7 +6,7 @@
 
       
         <div class="col-8 ml-5" style="margin-left: 30px;">
-            <a class="btn btn-link text-dark  text-decoration-none nav-link" routerLink="/chat">Chat</a>
+            <a class="btn btn-link text-dark  text-decoration-none nav-link" routerLink="/dashboard">Chat</a>
         </div>
         <div class="col-5 ml-5" >
             <a class="btn btn-link text-dark text-decoration-none nav-link" routerLink="/ia-chatmart">IA Chatmart</a>
@@ -24,7 +24,7 @@
         </button>
         <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
             <button ngbDropdownItem routerLink="/perfil">Mi perfil</button>
-            <button ngbDropdownItem routerLink="/login" (click)="logout()">Salir</button>
+            <button ngbDropdownItem (click)="openConfirmationModal()">Salir</button>
         </div>
     </div>
 
