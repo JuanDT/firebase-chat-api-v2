@@ -22,8 +22,7 @@ import { FooterModule } from './footer/footer.module';
 
 @NgModule({
   declarations: [
-    AppComponent,  
-    
+    AppComponent,     
     SobreNosotrosComponent,
     StartComponent,
     PageNotFoundComponent
@@ -39,7 +38,7 @@ import { FooterModule } from './footer/footer.module';
     NgbModule,
     ReactiveFormsModule,
     DashboardModule,
-     FooterModule
+    FooterModule
     
     
   ],
