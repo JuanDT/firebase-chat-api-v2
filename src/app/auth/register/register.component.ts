@@ -44,7 +44,7 @@ export class RegisterComponent  implements OnInit {
 
   closePopup() {
     this.showSuccessPopup = false;
-    this.router.navigate(['/login']);
+    this.router.navigate(['auth/login']);
   }
   
   

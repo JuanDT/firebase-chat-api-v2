@@ -1,0 +1,45 @@
+
+.chat-component {
+    margin-bottom: 60px; /* Ajusta el valor según sea necesario para evitar la superposición con el footer */
+  }
+
+.container-fluid{
+    width: 100%;  
+}
+
+.cardContainer{
+    background-color: rgb(255, 255, 255);
+    color: rgb(82, 80, 80);
+    width: 700px;
+    height: 500px;
+    position: fixed;
+
+}
+
+.card-body{
+    padding: 0.5rem;
+
+}
+
+.imgEnviar:active{
+   transform: scale(0.5);
+}
+
+.enviado{
+    display: block;
+    float: right;
+    background-color: rgb(10, 138, 104);
+    min-width: 50.01%;
+    border-radius: 10px;
+    text-align: left;
+    color: aliceblue;
+
+}.recibido{
+    display: block;
+    float: left;
+    background-color: rgb(127, 130, 130);
+    min-width: 50.01%;
+    border-radius: 10px;
+    text-align: left;
+    color: aliceblue;
+}

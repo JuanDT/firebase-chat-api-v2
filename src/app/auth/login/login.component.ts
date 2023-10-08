@@ -117,7 +117,7 @@ enabledOkButton(){
             this.userService.login(this.formLogin.value)
               .then(response => {
                 console.log(response);
-                this.router.navigate(['/main']);
+                this.router.navigate(['/dashboard']);
               })
               .catch(error => {
                 console.log(error);
@@ -138,7 +138,7 @@ enabledOkButton(){
     this.userService.loginWithGoogle()
       .then(response => {
         console.log(response);
-        this.router.navigate(['/main']);
+        this.router.navigate(['/dashboard']);
       })
       .catch(error => console.log(error))
   }

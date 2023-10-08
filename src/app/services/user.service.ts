@@ -3,6 +3,7 @@ import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signO
 import { Observable } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
 import { getStorage, ref, uploadBytes, getDownloadURL  } from 'firebase/storage';
+import { Router } from '@angular/router';
  
 
 
@@ -111,6 +112,10 @@ export class UserService {
         return false;
       }
       
+  }
+
+  getUserLogged():any{
+    return this.auth.currentUser
   }
 
   loginWithGoogle() {

@@ -1,0 +1,36 @@
+<nav class="navbar navbar-light bg-light">
+    <div class="d-flex align-items-center " style="margin-left: 20px;">
+        <a class="navbar-brand" routerLink="/dashboard">
+            <img src="../../../assets/images/logoChatTransp.png" width="50" height="50" class="d-inline-block alignt-top" alt="">
+        </a>
+
+      
+        <div class="col-8 ml-5" style="margin-left: 30px;">
+            <a class="btn btn-link text-dark  text-decoration-none nav-link" routerLink="/chat">Chat</a>
+        </div>
+        <div class="col-5 ml-5" >
+            <a class="btn btn-link text-dark text-decoration-none nav-link" routerLink="/ia-chatmart">IA Chatmart</a>
+
+        </div>
+        
+    </div>
+
+
+    <div ngbDropdown class="d-inline-block" style="margin-right: 20px;">
+        <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>
+            <img style="border-radius: 100%;" *ngIf="userLogged.photoURL" src="{{userLogged.photoURL}}" width="30" height="30"
+                class="d-inline-block align-top" alt="">
+            {{userLogged.displayName}}
+        </button>
+        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+            <button ngbDropdownItem routerLink="/perfil">Mi perfil</button>
+            <button ngbDropdownItem routerLink="/login" (click)="logout()">Salir</button>
+        </div>
+    </div>
+
+    <a class="navbar-brand" href="#" *ngIf="userLogged | async as user">
+        <img style="border-radius: 100%" *ngIf="userLogged.photoUrl" src="{{userLogged.photoUrl}}"
+            width="30" height="30" class="d-inline-block align-top" alt="">
+        {{userLogged.email}}
+    </a>
+</nav>

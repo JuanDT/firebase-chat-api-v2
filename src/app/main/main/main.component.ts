@@ -55,11 +55,9 @@ export class MainComponent implements OnInit {
 
       
       this.userService.logout();
-     
-
       this.auth.signOut()
       .then(() => {
-        this.router.navigate(['/login']);
+        this.router.navigate(['/auth/login']);
       })
       .catch((error) => {
         console.error('Error al cerrar sesión:', error);

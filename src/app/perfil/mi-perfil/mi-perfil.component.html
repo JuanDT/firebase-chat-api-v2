@@ -1,0 +1,74 @@
+
+<div class="container mt-4">
+    <div class="text-center">
+      <h2>Mi Perfil</h2>
+    </div>
+  
+    <!-- Foto de perfil circular -->
+    <div class="profile-picture-container">
+      <img [src]="userPhotoURL" alt="Foto de perfil" class="profile-picture">
+    </div>
+  
+    <!-- Formulario de perfil -->
+    <form>
+      <!-- Nickname (editable si se activa la edición) -->
+      <div class="form-group">
+        <label for="nickname">Nickname</label>
+        <input
+          type="text"
+          class="form-control"
+          id="nickname"
+          [value]="userNickname"
+          [disabled]="!editMode"
+        >
+      </div>
+  
+      <!-- Contraseña (editable si se activa la edición) -->
+      <div class="form-group">
+        <label for="password">Contraseña</label>
+        <input
+          type="password"
+          class="form-control"
+          id="password"
+          [value]="userPassword"
+          [disabled]="!editMode"
+        >
+      </div>
+  
+      <!-- Botón para guardar cambios (visible solo en modo edición) -->
+      <div class="text-center">
+        <button
+          type="button"
+          class="btn btn-primary"
+          *ngIf="editMode"
+          (click)="guardarCambios()"
+        >
+          Guardar Cambios
+        </button>
+      </div>
+  
+      <!-- Botón para activar/desactivar modo edición -->
+      <div class="text-center mt-2">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          (click)="toggleEdit()"
+        >
+          {{ editMode ? 'Cancelar Edición' : 'Editar Perfil' }}
+        </button>
+      </div>
+  
+      <!-- Botón para cambiar la contraseña (visible solo en modo edición) -->
+      <div class="text-center mt-2">
+        <button
+          type="button"
+          class="btn btn-warning"
+          *ngIf="editMode"
+          (click)="solicitarCambioContrasena()"
+        >
+          Cambiar Contraseña
+        </button>
+      </div>
+    </form>
+  </div>
+  
