@@ -17,6 +17,7 @@ export class MiPerfilComponent implements OnInit {
 
   constructor(private auth: Auth, private userService: UserService){
     this.cambioContrasenaEnviado = false;
+    console.log("photo: "+this.userPhotoURL)
   }
 
   ngOnInit() {
@@ -42,9 +43,9 @@ export class MiPerfilComponent implements OnInit {
           email: this.userCorreo,
           nickname: this.userNickname
         };
-        localStorage.setItem('userData', JSON.stringify(userToStore));
-      
+        localStorage.setItem('userData', JSON.stringify(userToStore));    
     }
+    
   }
 
   toggleEdit() {

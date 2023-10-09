@@ -78,6 +78,9 @@ export class RegisterComponent  implements OnInit {
             uid: user.uid,
             displayName: displayName,
             email: email,
+            amigos: [], 
+            solicitudesAmistad: [], 
+            chats: [],
           };
           console.log(usuario.uid, usuario.email, usuario.displayName)
          
@@ -164,11 +167,17 @@ export class RegisterComponent  implements OnInit {
         const user = this.auth.currentUser; // Asumiendo que tienes un método para obtener el usuario autenticado
   
         if (user) {
-          // Aquí puedes utilizar un servicio o una función para agregar el usuario a la colección
-          // Por ejemplo, si tienes un servicio que se encarga de manejar la colección de usuarios:
-          //this.userService.addUserToCollection(user);
-  
-          // Luego, redirige al dashboard o a donde desees
+          const usuario: Usuario = {
+            uid: user.uid,
+            displayName: user.displayName || '',
+            email: user.displayName || '',
+            amigos: [], 
+            solicitudesAmistad: [], 
+            chats: [],
+          };
+          console.log(usuario.uid, usuario.email, usuario.displayName)
+         
+          this.userService.saveUser(usuario)
           this.router.navigate(['/dashboard']);
         } else {
           console.error('No se pudo obtener el usuario autenticado.');
