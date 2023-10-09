@@ -30,10 +30,6 @@ export class UserService {
     return this.email;
   }
 
-  getUser(){
-    return 
-  }
-
   saveUser(user: Usuario){
      const userRef = collection(this.firestore, 'usuario');
      console.log(this.firestore)
