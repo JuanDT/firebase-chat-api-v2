@@ -2,7 +2,7 @@ import {  Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
-import { Auth, User, getAuth, provideAuth, createUserWithEmailAndPassword, updateProfile } from '@angular/fire/auth';
+import { Auth, User, getAuth, provideAuth, createUserWithEmailAndPassword, updateProfile, user } from '@angular/fire/auth';
 import { getStorage,  ref, uploadBytes } from 'firebase/storage';
 import { getApp, initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { environment } from 'src/environments/environment';
@@ -62,7 +62,7 @@ export class RegisterComponent  implements OnInit {
     const password = this.formReg.value.password;
     const displayName = this.formReg.value.displayName;
     const photo = this.formData?.get('photo');
-    console.log('Estado del formulario:', this.formReg.value);
+    console.log('Estado del formulario:', this.formReg.value, "uid");
 
     if (!this.userService.checkPasswordLength(password)) {
       this.showPasswordLengthError = true;
@@ -73,6 +73,17 @@ export class RegisterComponent  implements OnInit {
       createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           const user = userCredential.user as User;
+
+          const usuario: Usuario = {
+            uid: user.uid,
+            displayName: displayName,
+            email: email,
+          };
+          console.log(usuario.uid, usuario.email, usuario.displayName)
+         
+          this.userService.saveUser(usuario)
+          
+         
 
           updateProfile(user, { displayName: displayName })
             .then(async () => {
@@ -100,23 +111,7 @@ export class RegisterComponent  implements OnInit {
                 this.successMessage = 'Registrado correctamente';
                 console.log("No hay imagen")
               }
-              const usuario: Usuario = {
-                uid: user.uid,
-                displayName: displayName,
-                email: email,
-              };
-             
-                const app = initializeApp(environment.firebase);
-                console.log(app)
-
-                
-                const db = getFirestore(getApp());
-                console.log("base de datos"+db)
-                
-               
-                const usuariosCollection = collection(db, 'usuarios', user.uid);
-                console.log("collection")
-                addDoc(usuariosCollection, usuario)          
+                                            
                  
             })
             .catch((error) => {

@@ -12,6 +12,7 @@ import { FooterModule } from '../footer/footer.module';
   declarations: [LoginComponent, 
     RegisterComponent],
   imports: [
+    
     CommonModule,
     AuthRoutingModule,
     FormsModule,

@@ -5,13 +5,12 @@ import { getStorage } from "firebase/storage";
 
 export const environment = {
   firebase: {
-    projectId: 'fir-auth-chat-5a0bb',
-    appId: '1:869543014368:web:8d3fb1b50f0e02fc494585',
-    storageBucket: 'fir-auth-chat-5a0bb.appspot.com',
-    locationId: 'us-central',
-    apiKey: 'AIzaSyD4lgwktmV-fEsOgBiIlDLDllhP5TsQzPU',
-    authDomain: 'fir-auth-chat-5a0bb.firebaseapp.com',
-    messagingSenderId: '869543014368',
+    apiKey: "AIzaSyBG4OoCGcyZj04vSKxiSAEItYEeOInZIgo",
+    authDomain: "chatangular-d2ed4.firebaseapp.com",
+    projectId: "chatangular-d2ed4",
+    storageBucket: "chatangular-d2ed4.appspot.com",
+    messagingSenderId: "339929742439",
+    appId: "1:339929742439:web:e7f1d4e637890534a0e8c2"
   },
   production: false
 };

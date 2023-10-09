@@ -4,8 +4,9 @@ import { Observable } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
 import { getStorage, ref, uploadBytes, getDownloadURL  } from 'firebase/storage';
 import { Router } from '@angular/router';
-import { Firestore, collection } from '@angular/fire/firestore';
-import { doc, getFirestore, updateDoc } from 'firebase/firestore';
+import { Firestore, collection, setDoc, doc, addDoc } from '@angular/fire/firestore';
+import {  getFirestore, updateDoc } from 'firebase/firestore';
+import { Usuario } from '../model/usuario';
  
 
 
@@ -32,6 +33,16 @@ export class UserService {
   getUser(){
     return 
   }
+
+  saveUser(user: Usuario){
+     const userRef = collection(this.firestore, 'usuario');
+     console.log(this.firestore)
+     const docRef = doc(userRef, user.uid);
+     console.log("creada"+docRef, user.uid, user.displayName, user.displayName)
+    const docu = setDoc(docRef, user);
+    console.log("documento: "+docu)
+  }
+
   async actualizarNickname(nuevoNickname: string): Promise<void> {
     try {
 
