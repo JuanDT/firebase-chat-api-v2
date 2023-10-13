@@ -1,20 +1,26 @@
-<div class="container">
+<div class="container mt-5">
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-7 mx-auto">
         <h3>Lista de Amigos</h3>
+        <div *ngFor="let usuario of usuarios">
+          <p>{{ usuario.displayName }} - {{ usuario.email }}</p>
+        </div>
         <!-- Buscador de amigos -->
         <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="Buscar amigo" >
+          <input type="text" class="form-control" placeholder="Buscar amigo">
           <div class="input-group-append">
-            <button class="btn btn-outline-secondary" type="button" >Buscar</button>
+            <button class="btn btn-light " type="button" style="width: 40px; height: 40px; background: url('../../../assets/images/R.png') no-repeat center center; background-size: cover;"></button>
+          </div>
+          <div class="input-group-append  ml-1">
+            <button class="btn pastel-green" style=" margin-left: 10px;">Añadir amigo</button>
           </div>
         </div>
-        <!-- Botón para añadir nuevo amigo (abrir modal) -->
-        <button class="btn btn-primary" >Añadir Amigo</button>
+        
+        
         <!-- Lista de amigos -->
         <ul class="list-group mt-3">
-          <li *ngFor="let friend of friends" class="list-group-item">
-            {{ friend.name }}         
+          <li *ngFor="let amigo of amigos" class="list-group-item">
+            {{ amigo.displayName }}         
             <button class="btn btn-danger float-right" >Eliminar Amigo</button>
           </li>
         </ul>

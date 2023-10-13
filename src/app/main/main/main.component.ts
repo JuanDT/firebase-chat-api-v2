@@ -13,7 +13,7 @@ export class MainComponent implements OnInit {
 
    displayName: string | null = null;
 
-   currentUser: User | null = null; // Objeto para almacenar el usuario actual
+   currentUser: User | null = null; 
 
 
   
@@ -28,24 +28,18 @@ export class MainComponent implements OnInit {
 
  
   ngOnInit(): void {
-   // Obtener la instancia de Firebase Authentication
    const auth = getAuth();
 
-   // Verificar si hay un usuario autenticado
    const user = auth.currentUser;
 
    if (user) {
-     // El usuario está autenticado, se asigna al objeto currentUser
      this.currentUser = user;
      
-     // Obtener el displayName y almacenarlo en la variable nickName
      this.displayName = user.displayName;
      
-     // Ahora puedes acceder al displayName como nickName
      console.log('Usuario actual:', this.currentUser);
      console.log('Nickname:', this.displayName);
    } else {
-     // No hay usuario autenticado
      this.currentUser = null;
    }
  }

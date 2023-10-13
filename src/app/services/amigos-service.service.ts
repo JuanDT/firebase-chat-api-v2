@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, doc, getDoc, setDoc, arrayUnion, arrayRemove, updateDoc, FieldValue, deleteDoc } from 'firebase/firestore';
+import { Firestore, collection, doc, getDoc, setDoc, arrayUnion, arrayRemove, updateDoc, FieldValue, deleteDoc, collectionData } from '@angular/fire/firestore';
 import { User } from 'firebase/auth';
 import { Usuario } from '../model/usuario';
 import firebase from 'firebase/compat/app';
+import { user } from '@angular/fire/auth';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -65,9 +67,15 @@ export class AmigosService {
     }
   }
 
+  getData(): Observable<any[]>{
+    const ref = collection(this.firestore, 'usuario');
+    return collectionData(ref,{idField: 'uid'}) as Observable<any>
+  }
+
+
   async getFriends(userId: string): Promise<Usuario[]> {
     try {
-      const userRef = doc(collection(this.firestore, 'usuarios'), userId);
+      const userRef = doc(collection(this.firestore, 'usuario'), userId);
       const userDoc = await getDoc(userRef);
 
       if (userDoc.exists()) {
@@ -76,7 +84,7 @@ export class AmigosService {
           const friendIds: string[] = userData['amigos'];
 
           const friendsPromises = friendIds.map(async (friendId) => {
-            const friendRef = doc(collection(this.firestore, 'usuarios'), friendId);
+            const friendRef = doc(collection(this.firestore, 'usuario'), friendId);
             const friendDoc = await getDoc(friendRef);
 
             if (friendDoc.exists()) {
@@ -89,6 +97,8 @@ export class AmigosService {
           const friendsData = await Promise.all(friendsPromises);
           return friendsData.filter((friend) => friend !== null) as Usuario[];
         }
+      }else {
+        console.log('El documento del usuario no existe.');
       }
 
       return [];
@@ -97,6 +107,7 @@ export class AmigosService {
       throw error;
     }
   }
+
 
   async searchFriendsByNickname(userId: string, searchTerm: string): Promise<Usuario[]> {
     try {

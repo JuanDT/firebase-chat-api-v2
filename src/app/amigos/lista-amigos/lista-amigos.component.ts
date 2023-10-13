@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { getAuth } from '@angular/fire/auth';
+import { Firestore, collection, getDocs } from '@angular/fire/firestore';
+import { Usuario } from 'src/app/model/usuario';
+import { AmigosService } from 'src/app/services/amigos-service.service';
+
 
 @Component({
   selector: 'app-lista-amigos',
@@ -8,24 +13,34 @@ import { Component, OnInit } from '@angular/core';
 export class ListaAmigosComponent implements OnInit {
   searchTerm: string = '';
   friends: any[] = [];
+  usuarios: any[] = [];
+  amigos: Usuario[] = [];
 
-  constructor() {}
+  constructor(private amigosService: AmigosService, private firestore: Firestore) {}
 
-  ngOnInit() {
-    // Aquí puedes cargar la lista de amigos del usuario actual
-    // Debes obtener la lista de amigos y asignarla a this.friends
+  async ngOnInit() {
+    
+    const user = getAuth()
+    
+    const currentUser = user.currentUser
+
+    if(currentUser){
+      this.amigos = await this.amigosService.getFriends(currentUser.uid);
+
+    }
+
+    
   }
 
-  searchFriends() {
-    // Implementa la lógica para buscar amigos según el término de búsqueda (this.searchTerm)
-    // Actualiza this.friends con los resultados
+  async searchFriends() {
+   
   }
 
   openAddFriendModal() {
     // Implementa la lógica para abrir un modal o ventana para agregar amigos
   }
 
-  removeFriend(friend: any) {
-    // Implementa la lógica para eliminar a un amigo
+  async removeFriend(friend: Usuario) {
+   
   }
 }

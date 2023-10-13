@@ -1,0 +1,9 @@
+.imgEnviar:active{
+    transform: scale(0.9);
+ }
+
+ .pastel-green {
+    background-color: #a0d468; /* Color verde pastel */
+    color: #ffffff; /* Color del texto */
+    border: 1px solid #a0d468; /* Borde opcional */
+  }

@@ -4,19 +4,21 @@
     
   </div>
 
-  <div class="row-3">
+  <div class="row">
     <!-- Foto de perfil circular -->
-    <div class="col-4 text-center">
-      <img [src]="userPhotoURL" alt="Foto de perfil" style="border-radius: 100%;">
-      <br>
-      <div class="mt-1">
-        <p>{{ userCorreo }}</p>
-      </div>
-      
-    </div>
+    
    <br>
     <!-- Información de perfil -->
     <div class="col-4 align-items-center">
+      <div class="text-center">
+        <img [src]="userPhotoURL" alt="Foto de perfil" style="border-radius: 100%;">
+        <br>
+        <div class="mt-1 mr-2">
+          <p>{{ userCorreo }}</p>
+        </div>
+        
+      </div>
+      <br>
       <div class="form-group">
         <label for="nickname" style="margin-left: 60px;">Nickname</label>
         <div class="col-8" style="margin-left: 60px;">
@@ -80,10 +82,13 @@
         </div>
       </div>
     </div>
-    
+    <div class="col-8">
+      <app-lista-amigos></app-lista-amigos>
+
+    </div>
   </div>
   
-    <app-lista-amigos></app-lista-amigos>
+    
 
   
 </div>
