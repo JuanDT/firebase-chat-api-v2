@@ -5,6 +5,7 @@ import { PerfilRoutingModule } from './perfil-routing.module';
 import { MiPerfilComponent } from './mi-perfil/mi-perfil.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NavModule } from '../nav/nav.module';
+import { AmigosModule } from '../amigos/amigos.module';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { NavModule } from '../nav/nav.module';
     PerfilRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    NavModule
+    NavModule,
+    AmigosModule
  
   ], exports:[MiPerfilComponent]
 })

@@ -18,6 +18,7 @@ import { provideStorage,getStorage } from '@angular/fire/storage';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { FooterModule } from './footer/footer.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AmigosModule } from './amigos/amigos.module';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule,
     DashboardModule,
     FooterModule,
-    AuthModule  
+    AuthModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,27 +1,31 @@
 import { Component, OnInit } from '@angular/core';
-import { AmigosService } from '../../services/amigos-service.service';
-import { Auth } from '@angular/fire/auth';
+
 @Component({
   selector: 'app-lista-amigos',
   templateUrl: './lista-amigos.component.html',
-  styleUrls: ['./lista-amigos.component.css'],
+  styleUrls: ['./lista-amigos.component.css']
 })
 export class ListaAmigosComponent implements OnInit {
-  amigos: any[]; // Define la estructura de los amigos
+  searchTerm: string = '';
+  friends: any[] = [];
 
-  constructor(private amigosService: AmigosService, private auth: Auth) {
-    this.amigos = [];
+  constructor() {}
+
+  ngOnInit() {
+    // Aquí puedes cargar la lista de amigos del usuario actual
+    // Debes obtener la lista de amigos y asignarla a this.friends
   }
 
-  ngOnInit(): void {
-    if (this.auth.currentUser?.uid) {
-      this.amigosService.getListaAmigos(this.auth.currentUser.uid).subscribe((amigos) => {
-        // Resto de la lógica para manejar la lista de amigos
-      });
-    } else {
-      // Manejar el caso en el que this.auth.currentUser?.uid es undefined
-    }
+  searchFriends() {
+    // Implementa la lógica para buscar amigos según el término de búsqueda (this.searchTerm)
+    // Actualiza this.friends con los resultados
   }
 
-  // Implementa funciones para aceptar solicitudes, eliminar amigos, etc.
+  openAddFriendModal() {
+    // Implementa la lógica para abrir un modal o ventana para agregar amigos
+  }
+
+  removeFriend(friend: any) {
+    // Implementa la lógica para eliminar a un amigo
+  }
 }
