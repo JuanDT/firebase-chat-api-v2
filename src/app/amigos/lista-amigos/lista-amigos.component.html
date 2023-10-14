@@ -12,21 +12,23 @@
             <button class="btn btn-light " type="button" style="width: 40px; height: 40px; background: url('../../../assets/images/R.png') no-repeat center center; background-size: cover;"></button>
           </div>
           <div class="input-group-append  ml-1">
-            <button class="btn pastel-green" style=" margin-left: 10px;">Añadir amigo</button>
+            <button class="btn pastel-green" style=" margin-left: 10px;" (click)="openAddFriendModal()">Añadir amigo</button>
           </div>
         </div>
+
         
-        
+            
         <!-- Lista de amigos -->
         <ul class="list-group mt-3">
-          <li *ngFor="let amigo of amigos" class="list-group-item">
-            {{ amigo.displayName }}         
-            <button class="btn btn-danger float-right" >Eliminar Amigo</button>
+          <li *ngFor="let amigo of amigos" class="list-group-item d-flex justify-content-between align-items-center">
+            {{ amigo.displayName }}
+            <button class="btn btn-danger" >Eliminar</button>
           </li>
         </ul>
       </div>
     </div>
   </div>
   <div>
+     
    
   </div>

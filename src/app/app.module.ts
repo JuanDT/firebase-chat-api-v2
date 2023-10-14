@@ -19,13 +19,15 @@ import { DashboardModule } from './dashboard/dashboard.module';
 import { FooterModule } from './footer/footer.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AmigosModule } from './amigos/amigos.module';
+import { AnadirAmigoComponent } from './components/anadir-amigo/anadir-amigo.component';
 
 @NgModule({
   declarations: [
     AppComponent,     
     SobreNosotrosComponent,
     StartComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    AnadirAmigoComponent
   ],
   imports: [
     provideFirebaseApp(() => initializeApp(environment.firebase)),

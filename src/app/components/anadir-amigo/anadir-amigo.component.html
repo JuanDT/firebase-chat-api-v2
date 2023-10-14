@@ -1,0 +1,44 @@
+<!-- Modal de búsqueda de amigos -->
+<div  class="popup">
+    <div class="popup-content">
+     <h4 class="text-center">Buscar Amigos</h4>
+     <br>
+
+     <!-- Formulario de búsqueda de amigos -->
+     <div class="form-group">
+       <input type="text" class="form-control" placeholder="Buscar amigo">
+     </div>
+
+     <!-- Lista de resultados de búsqueda -->
+     <ul class="list-group mt-3 scrollable-list">
+       <!-- Puedes iterar sobre los resultados de búsqueda y mostrarlos aquí -->
+       <!-- Cada elemento en la lista podría incluir un botón para agregar el amigo -->
+       <li class="list-group-item d-flex justify-content-between align-items-center">
+         Nombre del Amigo
+         <button class="btn pastel-green" (click)="addFriend()">Agregar</button>
+       </li>
+       <li class="list-group-item d-flex justify-content-between align-items-center">
+        Nombre del Amigo
+        <button class="btn pastel-green" (click)="addFriend()">Agregar</button>
+      </li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        Nombre del Amigo
+        <button class="btn pastel-green" (click)="addFriend()">Agregar</button>
+      </li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        Nombre del Amigo
+        <button class="btn pastel-green" (click)="addFriend()">Agregar</button>
+      </li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        Nombre del Amigo
+        <button class="btn pastel-green" (click)="addFriend()">Agregar</button>
+      </li>
+      
+      
+     </ul>
+
+     <div class="text-center mt-4">
+       <button class="btn btn-secondary" (click)="activeModal.close('Cerrar')">Cerrar</button>
+     </div>
+    </div>
+ </div>
