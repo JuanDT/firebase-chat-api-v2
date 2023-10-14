@@ -1,41 +1,26 @@
 <!-- Modal de búsqueda de amigos -->
 <div  class="popup">
     <div class="popup-content">
-     <h4 class="text-center">Buscar Amigos</h4>
+     <h4 class="text-center">Buscar amigo</h4>
      <br>
 
      <!-- Formulario de búsqueda de amigos -->
-     <div class="form-group">
-       <input type="text" class="form-control" placeholder="Buscar amigo">
-     </div>
-
-     <!-- Lista de resultados de búsqueda -->
-     <ul class="list-group mt-3 scrollable-list">
-       <!-- Puedes iterar sobre los resultados de búsqueda y mostrarlos aquí -->
-       <!-- Cada elemento en la lista podría incluir un botón para agregar el amigo -->
-       <li class="list-group-item d-flex justify-content-between align-items-center">
-         Nombre del Amigo
-         <button class="btn pastel-green" (click)="addFriend()">Agregar</button>
-       </li>
-       <li class="list-group-item d-flex justify-content-between align-items-center">
-        Nombre del Amigo
-        <button class="btn pastel-green" (click)="addFriend()">Agregar</button>
-      </li>
-      <li class="list-group-item d-flex justify-content-between align-items-center">
-        Nombre del Amigo
-        <button class="btn pastel-green" (click)="addFriend()">Agregar</button>
-      </li>
-      <li class="list-group-item d-flex justify-content-between align-items-center">
-        Nombre del Amigo
-        <button class="btn pastel-green" (click)="addFriend()">Agregar</button>
-      </li>
-      <li class="list-group-item d-flex justify-content-between align-items-center">
-        Nombre del Amigo
-        <button class="btn pastel-green" (click)="addFriend()">Agregar</button>
-      </li>
-      
-      
-     </ul>
+     <div class="row form-group">
+        <div class="col-10">
+            <input [(ngModel)]="searchTerm" type="text" class="form-control" placeholder="Ingrese nombre de usuario">
+        </div>
+        <div class="col-2">
+            <button class="btn btn-light " type="button" (click)="searchUsers()" style="width: 40px; height: 40px; background: url('../../../assets/images/R.png') no-repeat center center; background-size: cover;">               
+            </button>
+        </div>
+    </div>
+    
+    <ul class="list-group mt-3 scrollable-list">
+        <li *ngFor="let amigo of searchResults" class="list-group-item d-flex justify-content-between align-items-center">
+          {{ amigo.displayName }}
+          <button class="btn pastel-green" (click)="addFriend()">Agregar</button>
+        </li>
+      </ul>
 
      <div class="text-center mt-4">
        <button class="btn btn-secondary" (click)="activeModal.close('Cerrar')">Cerrar</button>

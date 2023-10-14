@@ -17,6 +17,7 @@ export class ListaAmigosComponent implements OnInit {
   friends: any[] = [];
   usuarios: any[] = [];
   amigos: Usuario[] = [];
+  searchResults: Usuario[] = [];
 
   showModal: boolean = false;
 
@@ -57,7 +58,23 @@ export class ListaAmigosComponent implements OnInit {
   }
 
   async searchFriends() {
-   
+
+   if(this.searchTerm == ''){
+
+    const user = getAuth()
+    const currentUser = user.currentUser
+    if(currentUser){
+    this.amigos = await this.amigosService.getFriends(currentUser.uid);
+    }
+
+   }else{
+    const user = getAuth()
+    const currentUser = user.currentUser
+
+    if(currentUser){
+      this.amigos = await this.amigosService.searchFriends (currentUser.uid, this.searchTerm)
+    }
+   }  
   }
 
   openAddFriendModal() {

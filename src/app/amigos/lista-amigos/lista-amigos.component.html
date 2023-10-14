@@ -7,9 +7,9 @@
         </div>
         <!-- Buscador de amigos -->
         <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="Buscar amigo">
+          <input [(ngModel)]="searchTerm" type="text" class="form-control" placeholder="Buscar amigo">
           <div class="input-group-append">
-            <button class="btn btn-light " type="button" style="width: 40px; height: 40px; background: url('../../../assets/images/R.png') no-repeat center center; background-size: cover;"></button>
+            <button class="btn btn-light " type="button" (click)="searchFriends()" style="width: 40px; height: 40px; background: url('../../../assets/images/R.png') no-repeat center center; background-size: cover;"></button>
           </div>
           <div class="input-group-append  ml-1">
             <button class="btn pastel-green" style=" margin-left: 10px;" (click)="openAddFriendModal()">Añadir amigo</button>

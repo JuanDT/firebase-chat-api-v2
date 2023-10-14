@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, doc, getDoc, setDoc, arrayUnion, arrayRemove, updateDoc, FieldValue, deleteDoc, collectionData } from '@angular/fire/firestore';
+import { Firestore, collection, doc, getDoc, setDoc, arrayUnion, arrayRemove, updateDoc, FieldValue, deleteDoc, collectionData, query, where, getDocs } from '@angular/fire/firestore';
 import { User } from 'firebase/auth';
 import { Usuario } from '../model/usuario';
 import firebase from 'firebase/compat/app';
@@ -144,4 +144,61 @@ export class AmigosService {
       throw error;
     }
   }
+
+  async searchFriends(userId: string, searchTerm: string): Promise<Usuario[]> {
+    try {
+      const userRef = doc(collection(this.firestore, 'usuario'), userId);
+      const userDoc = await getDoc(userRef);
+  
+      if (userDoc.exists()) {
+        const userData = userDoc.data();
+        if (userData && userData['amigos']) {
+          const friendIds: string[] = userData['amigos'];
+  
+          const friendsPromises = friendIds.map(async (friendId) => {
+            const friendRef = doc(collection(this.firestore, 'usuario'), friendId);
+            const friendDoc = await getDoc(friendRef);
+  
+            if (friendDoc.exists()) {
+              const friendData = friendDoc.data() as Usuario;
+  
+              if (friendData.uid !== userId && (friendData.displayName.includes(searchTerm) || friendData.email.includes(searchTerm))) {
+                return friendData;
+              }
+            }
+  
+            return null;
+          });
+  
+          const friendsData = await Promise.all(friendsPromises);
+          return friendsData.filter((friend) => friend !== null) as Usuario[];
+        }
+      }
+  
+      return [];
+    } catch (error) {
+      console.error('Error al buscar amigos por nickname o email:', error);
+      throw error;
+    }
+  }
+
+  async searchUsers(searchTerm: string, currentUserId: string): Promise<Usuario[]> {
+    const usersCollection = collection(this.firestore, 'usuario');
+    const userQuery = query(usersCollection, where('displayName', '>=', searchTerm), where('displayName', '<=', searchTerm + '\uf8ff'));
+  
+    const querySnapshot = await getDocs(userQuery);
+    const results: Usuario[] = [];
+  
+    querySnapshot.forEach((doc) => {
+      const user = doc.data() as Usuario;
+      if (user.uid !== currentUserId && (user.displayName.includes(searchTerm) || user.email.includes(searchTerm))) {
+        results.push(user);
+      }
+    });
+  
+    return results;
+  }
+  
+  
+  
 }
