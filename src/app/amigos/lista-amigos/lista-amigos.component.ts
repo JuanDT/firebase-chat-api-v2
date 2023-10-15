@@ -17,7 +17,9 @@ export class ListaAmigosComponent implements OnInit {
   friends: any[] = [];
   usuarios: any[] = [];
   amigos: Usuario[] = [];
+  solicitudes: Usuario[] = [];
   searchResults: Usuario[] = [];
+  activeTab = 'amigos';
 
   showModal: boolean = false;
 
@@ -90,5 +92,16 @@ export class ListaAmigosComponent implements OnInit {
 
   }
 
+  acceptFriendRequest(senderUid: string){
+
+  }
+
+  rejectFriendRequest(senderUid: string){
+
+  }
+
+  changeTab(tab: string) {
+    this.activeTab = tab;
+  }
   
 }

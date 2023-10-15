@@ -1,11 +1,18 @@
 <div class="container mt-5">
-    <div class="row">
-      <div class="col-7 mx-auto">
-        <h3>Lista de Amigos</h3>
-        <div *ngFor="let usuario of usuarios">
-          <p>{{ usuario.displayName }} - {{ usuario.email }}</p>
-        </div>
-        <!-- Buscador de amigos -->
+  <div class="row">
+    <div class="col-7 mx-auto">     
+      <!-- Pestañas -->
+      <ul class="nav nav-tabs">
+        <li class="nav-item" (click)="changeTab('amigos')">
+          <a class="nav-link" [class.active]="activeTab === 'amigos'">Amigos</a>
+        </li>
+        <li class="nav-item" (click)="changeTab('solicitudes')">
+          <a class="nav-link" [class.active]="activeTab === 'solicitudes'">Solicitudes de Amistad</a>
+        </li>
+      </ul>
+
+      <!-- Contenido de las pestañas -->
+      <div *ngIf="activeTab === 'amigos'">
         <div class="input-group mb-3">
           <input [(ngModel)]="searchTerm" type="text" class="form-control" placeholder="Buscar amigo">
           <div class="input-group-append">
@@ -16,8 +23,6 @@
           </div>
         </div>
 
-        
-            
         <!-- Lista de amigos -->
         <ul class="list-group mt-3">
           <li *ngFor="let amigo of amigos" class="list-group-item d-flex justify-content-between align-items-center">
@@ -26,9 +31,18 @@
           </li>
         </ul>
       </div>
+
+      <div *ngIf="activeTab === 'solicitudes'">
+        <!-- Contenido de la pestaña de solicitudes de amistad -->
+        <ul class="list-group mt-3">
+          <li *ngFor="let solicitud of solicitudes" class="list-group-item d-flex justify-content-between align-items-center">
+            {{ solicitud.displayName }} te ha enviado una solicitud de amistad
+            <button class="btn btn-success" (click)="acceptFriendRequest(solicitud.uid)">Aceptar</button>
+            <button class="btn btn-danger" (click)="rejectFriendRequest(solicitud.uid)">Rechazar</button>
+          </li>
+        </ul>
+      </div>
+
     </div>
   </div>
-  <div>
-     
-   
-  </div>
+</div>

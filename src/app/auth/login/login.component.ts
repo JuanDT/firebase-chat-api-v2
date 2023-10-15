@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import { Auth, fetchSignInMethodsForEmail, sendPasswordResetEmail } from '@angular/fire/auth';
+import { Usuario } from 'src/app/model/usuario';
 
 @Component({
   selector: 'app-login',
@@ -136,11 +137,31 @@ enabledOkButton(){
   
   onClick() {
     this.userService.loginWithGoogle()
-      .then(response => {
+      .then((response) => {
         console.log(response);
-        this.router.navigate(['/dashboard']);
+  
+        const user = this.auth.currentUser; 
+  
+        if (user) {
+          const usuario: Usuario = {
+            uid: user.uid,
+            displayName: user.displayName || '',
+            email: user.displayName || '',
+            amigos: [], 
+            solicitudesAmistad: [], 
+            chats: [],
+          };
+          console.log(usuario.uid, usuario.email, usuario.displayName)
+         
+          this.userService.saveUser(usuario)
+          this.router.navigate(['/dashboard']);
+        } else {
+          console.error('No se pudo obtener el usuario autenticado.');
+        }
       })
-      .catch(error => console.log(error))
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
 }

@@ -160,11 +160,9 @@ export class RegisterComponent  implements OnInit {
   onClick() {
     this.userService.loginWithGoogle()
       .then((response) => {
-        // La autenticación con Google fue exitosa
         console.log(response);
   
-        // Agregar el usuario a la colección de usuarios
-        const user = this.auth.currentUser; // Asumiendo que tienes un método para obtener el usuario autenticado
+        const user = this.auth.currentUser; 
   
         if (user) {
           const usuario: Usuario = {
