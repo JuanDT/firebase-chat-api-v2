@@ -28,28 +28,6 @@ export class AmigosService {
     await setDoc(requestDocRef, request);
   }
   
-  async acceptFriendRequest(userId: string, friendId: string): Promise<void> {
-
-    const userFriendRequestRef = doc(collection(this.firestore, 'usuarios', userId, 'solicitudesAmistad'), friendId);
-    await updateDoc(userFriendRequestRef, { estado: 'aceptada' });
-
-    const userRef = doc(collection(this.firestore, 'usuarios'), userId);
-    const userData = (await getDoc(userRef)).data();
-    if (userData && userData['amigos'] && !userData['amigos'].includes(friendId)) {
-      userData['amigos'].push(friendId);
-      await setDoc(userRef, { amigos: userData['amigos'] }, { merge: true });
-    }
-
-    const friendRef = doc(collection(this.firestore, 'usuarios'), friendId);
-    const friendData = (await getDoc(friendRef)).data();
-    if (friendData && friendData['amigos'] && !friendData['amigos'].includes(userId)) {
-      friendData['amigos'].push(userId);
-      await setDoc(friendRef, { amigos: friendData['amigos'] }, { merge: true });
-      await deleteDoc(userFriendRequestRef);
-    }
-    
-  }
-  
 
   async removeFriend(currentUser: User, friendId: string): Promise<void> {
     try {
@@ -73,33 +51,22 @@ export class AmigosService {
 
   async getFriends(userId: string): Promise<Usuario[]> {
     try {
-      const userRef = doc(collection(this.firestore, 'usuario'), userId);
-      const userDoc = await getDoc(userRef);
-
-      if (userDoc.exists()) {
-        const userData = userDoc.data();
-        if (userData && userData['amigos']) {
-          const friendIds: string[] = userData['amigos'];
-           console.log("usuarios id"+friendIds)
-          const friendsPromises = friendIds.map(async (friendId) => {
-            const friendRef = doc(collection(this.firestore, 'usuario'), friendId);
-            const friendDoc = await getDoc(friendRef);
-
-            if (friendDoc.exists()) {
-              return friendDoc.data() as Usuario;
-            } else {
-              return null; 
-            }
-          });
-
-          const friendsData = await Promise.all(friendsPromises);
-          return friendsData.filter((friend) => friend !== null) as Usuario[];
+      const userRef = doc(this.firestore, 'usuario', userId);
+      const amigosCollectionRef = collection(userRef, 'amigos');
+      const querySnapshot = await getDocs(amigosCollectionRef);
+      const friends: Usuario[] = [];
+  
+      for (const docSnap of querySnapshot.docs) {
+        const friendId = docSnap.id;
+        const friendRef = doc(this.firestore, 'usuario', friendId);
+        const friendDoc = await getDoc(friendRef);
+  
+        if (friendDoc.exists()) {
+          friends.push(friendDoc.data() as Usuario);
         }
-      }else {
-        console.log('El documento del usuario no existe.');
       }
-
-      return [];
+  
+      return friends;
     } catch (error) {
       console.error('Error al obtener amigos:', error);
       throw error;
@@ -133,6 +100,49 @@ export class AmigosService {
       throw error;
     }
   }
+
+
+  async acceptFriendRequest(userId: string, friendRequestId: string): Promise<void> {
+    try {
+      const userRef = doc(this.firestore, 'usuario', userId);
+      const friendRequestRef = doc(this.firestore, 'usuario', userId, 'solicitudesAmistad', friendRequestId);
+  
+      const friendRequestDoc = await getDoc(friendRequestRef);
+  
+      if (friendRequestDoc.exists()) {
+        const friendRequestData = friendRequestDoc.data() as SolicitudAmistad;
+  
+        if (friendRequestData.estado === 'pendiente') {
+          await updateDoc(friendRequestRef, { estado: 'aceptada' });
+  
+          // Obtenemos el amigo de la solicitud
+          const friendUid = friendRequestData.remitenteUid;
+          const friendUserRef = doc(this.firestore, 'usuario', friendUid);
+  
+          // Agregamos al amigo a la subcolección 'amigos' del usuario actual
+          const amigosCollectionRef = collection(userRef, 'amigos');
+          await setDoc(doc(amigosCollectionRef, friendUid), {});
+  
+          // Agregamos al usuario actual a la subcolección 'amigos' del amigo
+          const friendAmigosCollectionRef = collection(friendUserRef, 'amigos');
+          await setDoc(doc(friendAmigosCollectionRef, userId), {});
+  
+          // Eliminamos la solicitud de amistad
+          await deleteDoc(friendRequestRef);
+  
+          console.log('Solicitud de amistad aceptada');
+        } else {
+          console.log('La solicitud de amistad ya ha sido aceptada o rechazada previamente.');
+        }
+      } else {
+        console.log('La solicitud de amistad no existe.');
+      }
+    } catch (error) {
+      console.error('Error al aceptar la solicitud de amistad:', error);
+      throw error;
+    }
+  }
+  
  
   async searchFriendsByNickname(userId: string, searchTerm: string): Promise<Usuario[]> {
     try {

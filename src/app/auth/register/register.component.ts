@@ -78,8 +78,8 @@ export class RegisterComponent  implements OnInit {
             uid: user.uid,
             displayName: displayName,
             email: email,
-            amigos: [], 
             solicitudesAmistad: [], 
+            amigos: [],
             chats: [],
           };
           console.log(usuario.uid, usuario.email, usuario.displayName)
@@ -168,9 +168,9 @@ export class RegisterComponent  implements OnInit {
           const usuario: Usuario = {
             uid: user.uid,
             displayName: user.displayName || '',
-            email: user.displayName || '',
-            amigos: [], 
+            email: user.displayName || '',         
             solicitudesAmistad: [], 
+            amigos: [],
             chats: [],
           };
           console.log(usuario.uid, usuario.email, usuario.displayName)
@@ -182,7 +182,6 @@ export class RegisterComponent  implements OnInit {
         }
       })
       .catch((error) => {
-        // Maneja el error si la autenticación con Google falla
         console.log(error);
       });
   }

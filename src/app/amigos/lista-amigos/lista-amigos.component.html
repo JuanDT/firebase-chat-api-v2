@@ -30,6 +30,13 @@
             <button class="btn btn-danger" >Eliminar</button>
           </li>
         </ul>
+        <br>
+        <br>
+        <br>
+        <br>
+        <div *ngIf="amigos.length === 0" class="text-center">
+          Tu lista de amigos está vacía.
+        </div>
       </div>
 
       <div *ngIf="activeTab === 'solicitudes'">
@@ -37,7 +44,7 @@
           <li *ngFor="let solicitud of solicitudes" class="list-group-item d-flex justify-content-between align-items-center">
             <p style="color: rgb(37, 37, 98);">{{ solicitud.remitente.displayName }}</p>
             <div class="btn-group">
-              <button class="btn pastel-green" >Aceptar</button>
+              <button class="btn pastel-green" (click)="acceptFriendRequest(solicitud.remitente.uid)" >Aceptar</button>
               <button class="btn btn-danger" >Rechazar</button>
             </div>
           </li>

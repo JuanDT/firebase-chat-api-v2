@@ -61,8 +61,8 @@ export class ListaAmigosComponent implements OnInit {
    
     this.saveToLocalStorage();
   }
-  async listFriends(userId: string) {
-    this.amigos = await this.amigosService.getFriends(userId);
+  async listFriends() {
+    this.amigos = await this.amigosService.getFriends(this.userUid);
   }
 
   async loadFriendRequests() {
@@ -105,7 +105,10 @@ export class ListaAmigosComponent implements OnInit {
   }
 
   acceptFriendRequest(senderUid: string){
-
+     this.amigosService.acceptFriendRequest(this.userUid, senderUid)
+     this.listFriends()
+     this.loadFriendRequests()
+     
   }
 
   rejectFriendRequest(senderUid: string){
