@@ -106,6 +106,7 @@ export class ListaAmigosComponent implements OnInit {
 
   acceptFriendRequest(senderUid: string){
      this.amigosService.acceptFriendRequest(this.userUid, senderUid)
+     this.saveToLocalStorage()
      this.listFriends()
      this.loadFriendRequests()
      

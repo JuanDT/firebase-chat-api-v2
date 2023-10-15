@@ -14,6 +14,7 @@ export class AnadirAmigoComponent implements OnInit {
  searchTerm:string = '';
  searchResults: Usuario[] = [];
 
+ listaAmigos: Usuario [] = [];
  reicipentUid: string = '';
  senderUid: string = '';
 
@@ -28,7 +29,7 @@ export class AnadirAmigoComponent implements OnInit {
 
     if(currentUser){
       this.senderUid = currentUser.uid;
-
+      this.listaAmigos = await this.amigosService.getFriends(currentUser.uid)
    if(this.searchTerm == ''){
     this.searchResults = []
    }else{
@@ -39,10 +40,22 @@ export class AnadirAmigoComponent implements OnInit {
     }
   }
 
- 
 
   addFriend(amigo: Usuario){
     console.log("sender: "+this.senderUid,"reicipent: "+ amigo.uid)
      this.amigosService.sendFriendRequest(this.senderUid, amigo.uid)
   }
+
+  
+  isFriend(amigo: Usuario): boolean {
+    
+      for (const usuario2 of this.listaAmigos) {
+        if (amigo.uid === usuario2.uid) {
+          return true;
+        }
+      }  
+    return false;
+  }
+  
+
 }
