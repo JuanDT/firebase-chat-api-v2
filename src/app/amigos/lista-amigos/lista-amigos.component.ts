@@ -3,6 +3,7 @@ import { getAuth } from '@angular/fire/auth';
 import { Firestore, collection, getDocs } from '@angular/fire/firestore';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AnadirAmigoComponent } from 'src/app/components/anadir-amigo/anadir-amigo.component';
+import { SolicitudAmistad } from 'src/app/model/solicitudAmistad';
 import { Usuario } from 'src/app/model/usuario';
 import { AmigosService } from 'src/app/services/amigos-service.service';
 
@@ -17,10 +18,11 @@ export class ListaAmigosComponent implements OnInit {
   friends: any[] = [];
   usuarios: any[] = [];
   amigos: Usuario[] = [];
-  solicitudes: Usuario[] = [];
+  solicitudes: { solicitud: SolicitudAmistad; remitente: Usuario }[] = [];
   searchResults: Usuario[] = [];
   activeTab = 'amigos';
-
+  userUid:string = '';
+ 
   showModal: boolean = false;
 
   constructor(private amigosService: AmigosService, private firestore: Firestore, private modalService: NgbModal) {
@@ -36,27 +38,37 @@ export class ListaAmigosComponent implements OnInit {
   
     if (currentUser) {
       this.amigos = await this.amigosService.getFriends(currentUser.uid);
-      this.saveFriendsToLocalStorage();
+      this.solicitudes = await this.amigosService.getFriendRequests(currentUser.uid);
+      this.userUid = currentUser.uid;
+      this.saveToLocalStorage();
+     
     } else {
-      // Recuperar la lista de amigos desde el localStorage si el usuario no está autenticado
       const storedFriends = localStorage.getItem('amigos');
-      if (storedFriends) {
+      const storedSolicitudes = localStorage.getItem('solicitudes');
+      if (storedFriends && storedSolicitudes) {
         this.amigos = JSON.parse(storedFriends);
+        this.solicitudes = JSON.parse(storedSolicitudes);
       }
     }
   }
   
-  saveFriendsToLocalStorage() {
+  saveToLocalStorage() {
     localStorage.setItem('amigos', JSON.stringify(this.amigos));
+    localStorage.setItem('solicitudes', JSON.stringify(this.solicitudes));
   }
   
   async removeFriend(friend: Usuario) {
-    // Implementa la lógica para eliminar a un amigo
-    // Después de eliminar, guarda la lista actualizada en el localStorage
-    this.saveFriendsToLocalStorage();
+   
+    this.saveToLocalStorage();
   }
   async listFriends(userId: string) {
     this.amigos = await this.amigosService.getFriends(userId);
+  }
+
+  async loadFriendRequests() {
+    if (this.activeTab === 'solicitudes') {
+      this.solicitudes = await this.amigosService.getFriendRequests(this.userUid);
+    }
   }
 
   async searchFriends() {

@@ -14,6 +14,9 @@ export class AnadirAmigoComponent implements OnInit {
  searchTerm:string = '';
  searchResults: Usuario[] = [];
 
+ reicipentUid: string = '';
+ senderUid: string = '';
+
   constructor(public activeModal: NgbActiveModal, private amigosService: AmigosService) { }
 
   ngOnInit(): void {
@@ -24,6 +27,7 @@ export class AnadirAmigoComponent implements OnInit {
     const currentUser = user.currentUser
 
     if(currentUser){
+      this.senderUid = currentUser.uid;
 
    if(this.searchTerm == ''){
     this.searchResults = []
@@ -37,7 +41,8 @@ export class AnadirAmigoComponent implements OnInit {
 
  
 
-  addFriend(){
-
+  addFriend(amigo: Usuario){
+    console.log("sender: "+this.senderUid,"reicipent: "+ amigo.uid)
+     this.amigosService.sendFriendRequest(this.senderUid, amigo.uid)
   }
 }

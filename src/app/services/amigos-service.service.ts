@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, doc, getDoc, setDoc, arrayUnion, arrayRemove, updateDoc, FieldValue, deleteDoc, collectionData, query, where, getDocs } from '@angular/fire/firestore';
+import { Firestore, collection, doc, getDoc, setDoc, arrayUnion, arrayRemove, updateDoc, FieldValue, deleteDoc, collectionData, query, where, getDocs, serverTimestamp } from '@angular/fire/firestore';
 import { User } from 'firebase/auth';
 import { Usuario } from '../model/usuario';
 import firebase from 'firebase/compat/app';
 import { user } from '@angular/fire/auth';
 import { Observable } from 'rxjs';
+import { SolicitudAmistad } from '../model/solicitudAmistad';
 
 @Injectable({
   providedIn: 'root'
@@ -14,26 +15,24 @@ export class AmigosService {
   constructor(private firestore: Firestore) { }
 
   async sendFriendRequest(senderUid: string, recipientUid: string): Promise<void> {
-    const request = {
+    const request: SolicitudAmistad = {
       remitenteUid: senderUid,
-      estado: 'pendiente',
-      fechaEnvio: firebase.firestore.FieldValue.serverTimestamp(),
+      estado: 'pendiente', 
+      fechaEnvio: serverTimestamp()
     };
 
-    const recipientRef = doc(collection(this.firestore, 'usuarios'), recipientUid);
+    const recipientRef = doc(collection(this.firestore, 'usuario'), recipientUid);
     const friendRequestsRef = collection(recipientRef, 'solicitudesAmistad');
     const requestDocRef = doc(friendRequestsRef, senderUid);
-
+    console.log("Solicitud Enviada")
     await setDoc(requestDocRef, request);
   }
   
   async acceptFriendRequest(userId: string, friendId: string): Promise<void> {
 
-    // Actualiza el estado de la solicitud de amistad a "aceptada"
     const userFriendRequestRef = doc(collection(this.firestore, 'usuarios', userId, 'solicitudesAmistad'), friendId);
     await updateDoc(userFriendRequestRef, { estado: 'aceptada' });
 
-    //usuario actual
     const userRef = doc(collection(this.firestore, 'usuarios'), userId);
     const userData = (await getDoc(userRef)).data();
     if (userData && userData['amigos'] && !userData['amigos'].includes(friendId)) {
@@ -41,7 +40,6 @@ export class AmigosService {
       await setDoc(userRef, { amigos: userData['amigos'] }, { merge: true });
     }
 
-    //usuario envió
     const friendRef = doc(collection(this.firestore, 'usuarios'), friendId);
     const friendData = (await getDoc(friendRef)).data();
     if (friendData && friendData['amigos'] && !friendData['amigos'].includes(userId)) {
@@ -82,7 +80,7 @@ export class AmigosService {
         const userData = userDoc.data();
         if (userData && userData['amigos']) {
           const friendIds: string[] = userData['amigos'];
-
+           console.log("usuarios id"+friendIds)
           const friendsPromises = friendIds.map(async (friendId) => {
             const friendRef = doc(collection(this.firestore, 'usuario'), friendId);
             const friendDoc = await getDoc(friendRef);
@@ -108,7 +106,34 @@ export class AmigosService {
     }
   }
 
-
+  async getFriendRequests(userId: string): Promise<{ solicitud: SolicitudAmistad, remitente: Usuario }[]> {
+    try {
+      const userRef = doc(this.firestore, 'usuario', userId);
+      const friendRequestsCollectionRef = collection(userRef, 'solicitudesAmistad');
+      
+      const querySnapshot = await getDocs(friendRequestsCollectionRef);
+      const friendRequests: { solicitud: SolicitudAmistad, remitente: Usuario }[] = [];
+  
+      for (const docSnap of querySnapshot.docs) {
+        const friendRequestData = docSnap.data() as SolicitudAmistad;
+        const remitenteUid = friendRequestData.remitenteUid;
+  
+        const remitenteDocRef = doc(this.firestore, 'usuario', remitenteUid);
+        const remitenteDocSnap = await getDoc(remitenteDocRef);
+  
+        if (remitenteDocSnap.exists()) {
+          const remitenteData = remitenteDocSnap.data() as Usuario;
+          friendRequests.push({ solicitud: friendRequestData, remitente: remitenteData });
+        }
+      }
+  
+      return friendRequests;
+    } catch (error) {
+      console.error('Error al obtener solicitudes de amistad:', error);
+      throw error;
+    }
+  }
+ 
   async searchFriendsByNickname(userId: string, searchTerm: string): Promise<Usuario[]> {
     try {
       const userRef = doc(collection(this.firestore, 'usuarios'), userId);
