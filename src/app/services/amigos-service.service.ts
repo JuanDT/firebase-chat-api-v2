@@ -29,14 +29,20 @@ export class AmigosService {
   }
   
 
-  async removeFriend(currentUser: User, friendId: string): Promise<void> {
+  async removeFriend(currentUserUid: string, friendUid: string): Promise<void> {
     try {
-      const userRef = doc(collection(this.firestore, 'usuarios'), currentUser.uid);
-      const friendRef = doc(collection(this.firestore, 'usuarios'), friendId);
-
-      await setDoc(userRef, { amigos: arrayRemove(friendId) }, { merge: true });
-
-      await setDoc(friendRef, { amigos: arrayRemove(currentUser.uid) }, { merge: true });
+      const userRef = doc(this.firestore, 'usuario', currentUserUid);
+      const friendRef = doc(this.firestore, 'usuario', friendUid);
+  
+      const amigosCollectionRef = collection(userRef, 'amigos');
+      const currentUserFriendRef = doc(amigosCollectionRef, friendUid);
+      await deleteDoc(currentUserFriendRef);
+  
+      const friendAmigosCollectionRef = collection(friendRef, 'amigos');
+      const friendUserRef = doc(friendAmigosCollectionRef, currentUserUid);
+      await deleteDoc(friendUserRef);
+  
+      console.log('Amigo eliminado con éxito');
     } catch (error) {
       console.error('Error al eliminar amigo:', error);
       throw error;
@@ -123,25 +129,21 @@ export class AmigosService {
 
   async hasPendingFriendRequest(currentUserUid: string, friendUid: string): Promise<boolean> {
     try {
-      // Obtén la referencia al documento del amigo
       const friendUserRef = doc(this.firestore, 'usuario', friendUid);
   
-      // Obtén la subcolección de solicitudes de amistad del amigo
       const friendRequestsCollectionRef = collection(friendUserRef, 'solicitudesAmistad');
   
-      // Realiza una consulta para verificar si hay una solicitud pendiente del currentUser
       const querySnapshot = await getDocs(friendRequestsCollectionRef);
   
       for (const docSnap of querySnapshot.docs) {
         const friendRequestData = docSnap.data() as SolicitudAmistad;
   
-        // Verifica si la solicitud es pendiente y si el remitente es el currentUser
         if (friendRequestData.estado === 'pendiente' && friendRequestData.remitenteUid === currentUserUid) {
           return true;
         }
       }
   
-      return false; // No se encontró una solicitud pendiente del currentUser
+      return false; 
     } catch (error) {
       console.error('Error al verificar las solicitudes de amistad del amigo:', error);
       throw error;
@@ -162,19 +164,15 @@ export class AmigosService {
         if (friendRequestData.estado === 'pendiente') {
           await updateDoc(friendRequestRef, { estado: 'aceptada' });
   
-          // Obtenemos el amigo de la solicitud
           const friendUid = friendRequestData.remitenteUid;
           const friendUserRef = doc(this.firestore, 'usuario', friendUid);
   
-          // Agregamos al amigo a la subcolección 'amigos' del usuario actual
           const amigosCollectionRef = collection(userRef, 'amigos');
           await setDoc(doc(amigosCollectionRef, friendUid), {});
   
-          // Agregamos al usuario actual a la subcolección 'amigos' del amigo
           const friendAmigosCollectionRef = collection(friendUserRef, 'amigos');
           await setDoc(doc(friendAmigosCollectionRef, userId), {});
   
-          // Eliminamos la solicitud de amistad
           await deleteDoc(friendRequestRef);
   
           console.log('Solicitud de amistad aceptada');

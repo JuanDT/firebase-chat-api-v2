@@ -3,6 +3,7 @@ import { getAuth } from '@angular/fire/auth';
 import { Firestore, collection, getDocs } from '@angular/fire/firestore';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AnadirAmigoComponent } from 'src/app/components/anadir-amigo/anadir-amigo.component';
+import { DeleteConfirmationComponent } from 'src/app/components/delete-confirmation/delete-confirmation.component';
 import { SolicitudAmistad } from 'src/app/model/solicitudAmistad';
 import { Usuario } from 'src/app/model/usuario';
 import { AmigosService } from 'src/app/services/amigos-service.service';
@@ -22,6 +23,12 @@ export class ListaAmigosComponent implements OnInit {
   searchResults: Usuario[] = [];
   activeTab = 'amigos';
   userUid:string = '';
+
+  isOkButtonEnable: boolean = false;
+
+  
+
+  isConfirmationOpen: boolean = false;
  
   showModal: boolean = false;
 
@@ -104,11 +111,34 @@ export class ListaAmigosComponent implements OnInit {
 
   }
 
+  
+
+ closeDeleteConfirmation(){
+  this.isConfirmationOpen = false;
+ }
+
+ openDeleteConfirmation(amigo: Usuario) {
+  const modalRef = this.modalService.open(DeleteConfirmationComponent);
+  modalRef.componentInstance.friendDisplayName = amigo.displayName;
+  modalRef.result.then((result) => {
+    if (result === 'Eliminar') {
+       this.amigosService.removeFriend(this.userUid, amigo.uid);
+       this.ngOnInit();
+       
+      
+    }
+  }).catch((error) => {
+    console.log(`Modal cerrado con resultado: ${error}`);
+  });
+}
+ 
+
   acceptFriendRequest(senderUid: string){
      this.amigosService.acceptFriendRequest(this.userUid, senderUid)
      this.saveToLocalStorage()
      this.listFriends()
      this.loadFriendRequests()
+     this.ngOnInit()
      
   }
 

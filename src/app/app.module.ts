@@ -20,6 +20,7 @@ import { FooterModule } from './footer/footer.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AmigosModule } from './amigos/amigos.module';
 import { AnadirAmigoComponent } from './components/anadir-amigo/anadir-amigo.component';
+import { DeleteConfirmationComponent } from './components/delete-confirmation/delete-confirmation.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { AnadirAmigoComponent } from './components/anadir-amigo/anadir-amigo.com
     SobreNosotrosComponent,
     StartComponent,
     PageNotFoundComponent,
-    AnadirAmigoComponent
+    AnadirAmigoComponent,
+    DeleteConfirmationComponent
   ],
   imports: [
     provideFirebaseApp(() => initializeApp(environment.firebase)),
