@@ -29,3 +29,16 @@
     color: #ffffff; /* Color del texto */
     border: 1px solid #a0d468; /* Borde opcional */
   }
+
+  /* Agrega estos estilos al archivo de estilos CSS de tu aplicación */
+.custom-button {
+  background-color: white;
+  color: #FFD700; /* Amarillo mostaza */
+  border: 1px solid #FFD700; /* Bordes amarillo mostaza */
+  cursor: not-allowed;
+}
+
+.custom-button:hover {
+  background-color: white;
+}
+

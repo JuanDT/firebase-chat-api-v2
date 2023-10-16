@@ -17,15 +17,22 @@
     <ul class="list-group mt-3 scrollable-list">
       <li *ngFor="let amigo of searchResults" class="list-group-item d-flex justify-content-between align-items-center">
         {{ amigo.displayName }}
-        <ng-container *ngIf="!isFriend(amigo) ">
+        <ng-container *ngIf="!userStates[amigo.uid].isFriend && !userStates[amigo.uid].hasPendingReq && !userStates[amigo.uid].sentConfirmation">
           <button class="btn pastel-green" (click)="addFriend(amigo)">Enviar solicitud</button>
         </ng-container>
-        <ng-container *ngIf="isFriend(amigo)">
+        <ng-container *ngIf="userStates[amigo.uid].sentConfirmation">
+          <button class="btn custom-button" [disabled]="true">Enviada</button>
+        </ng-container>
+        <ng-container *ngIf="userStates[amigo.uid].isFriend">
           <p style="color: rgb(49, 150, 76);">Este usuario ya hace parte de tus amigos</p>
         </ng-container>
-        
+        <ng-container *ngIf="userStates[amigo.uid].hasPendingReq">
+          <p style="color: rgb(32, 108, 239);">Solicitud de amistad ya enviada</p>
+        </ng-container>
       </li>
     </ul>
+    
+    
     
     <div class="text-center mt-4">
       <button class="btn btn-secondary" (click)="activeModal.close('Cerrar')">Cerrar</button>

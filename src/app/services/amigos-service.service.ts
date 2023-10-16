@@ -101,6 +101,53 @@ export class AmigosService {
     }
   }
 
+  async getFriendRequests2(userId: string): Promise<SolicitudAmistad[]> {
+    try {
+      const userRef = doc(this.firestore, 'usuario', userId);
+      const friendRequestsCollectionRef = collection(userRef, 'solicitudesAmistad');
+      
+      const querySnapshot = await getDocs(friendRequestsCollectionRef);
+      const friendRequests: SolicitudAmistad[] = [];
+  
+      for (const docSnap of querySnapshot.docs) {
+        const friendRequestData = docSnap.data() as SolicitudAmistad;
+        friendRequests.push(friendRequestData);
+      }
+      console.log("SOlicutudes obtenidas")
+      return friendRequests;
+    } catch (error) {
+      console.error('Error al obtener solicitudes de amistad:', error);
+      throw error;
+    }
+  }
+
+  async hasPendingFriendRequest(currentUserUid: string, friendUid: string): Promise<boolean> {
+    try {
+      // Obtén la referencia al documento del amigo
+      const friendUserRef = doc(this.firestore, 'usuario', friendUid);
+  
+      // Obtén la subcolección de solicitudes de amistad del amigo
+      const friendRequestsCollectionRef = collection(friendUserRef, 'solicitudesAmistad');
+  
+      // Realiza una consulta para verificar si hay una solicitud pendiente del currentUser
+      const querySnapshot = await getDocs(friendRequestsCollectionRef);
+  
+      for (const docSnap of querySnapshot.docs) {
+        const friendRequestData = docSnap.data() as SolicitudAmistad;
+  
+        // Verifica si la solicitud es pendiente y si el remitente es el currentUser
+        if (friendRequestData.estado === 'pendiente' && friendRequestData.remitenteUid === currentUserUid) {
+          return true;
+        }
+      }
+  
+      return false; // No se encontró una solicitud pendiente del currentUser
+    } catch (error) {
+      console.error('Error al verificar las solicitudes de amistad del amigo:', error);
+      throw error;
+    }
+  }
+
 
   async acceptFriendRequest(userId: string, friendRequestId: string): Promise<void> {
     try {
