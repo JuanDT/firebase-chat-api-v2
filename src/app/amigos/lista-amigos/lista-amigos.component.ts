@@ -7,6 +7,8 @@ import { DeleteConfirmationComponent } from 'src/app/components/delete-confirmat
 import { SolicitudAmistad } from 'src/app/model/solicitudAmistad';
 import { Usuario } from 'src/app/model/usuario';
 import { AmigosService } from 'src/app/services/amigos-service.service';
+import { ChatServiceService } from 'src/app/services/chat.service.service';
+
 
 
 @Component({
@@ -32,7 +34,7 @@ export class ListaAmigosComponent implements OnInit {
  
   showModal: boolean = false;
 
-  constructor(private amigosService: AmigosService, private firestore: Firestore, private modalService: NgbModal) {
+  constructor(private amigosService: AmigosService, private firestore: Firestore, private modalService: NgbModal, private chatService: ChatServiceService) {
     const amigosData = localStorage.getItem('amigos');
   if (amigosData) {
     this.amigos = JSON.parse(amigosData);
@@ -134,7 +136,9 @@ export class ListaAmigosComponent implements OnInit {
  
 
   acceptFriendRequest(senderUid: string){
+    const participantes: string[] = [this.userUid,senderUid]
      this.amigosService.acceptFriendRequest(this.userUid, senderUid)
+     this.chatService.createChat(participantes)
      this.saveToLocalStorage()
      this.listFriends()
      this.loadFriendRequests()

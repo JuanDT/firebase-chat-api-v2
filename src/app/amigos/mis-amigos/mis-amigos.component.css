@@ -1,13 +1,13 @@
-/* Estilos generales para la lista de amigos */
 .amigos-list {
     background-color: #f5f5f5;
     border: 1px solid #ccc;
     padding: 10px;
     margin-top: 20px;
     border-radius: 5px;
+    height: 487px;
   }
   
-  /* Estilos para cada amigo en la lista */
+  
   .friend-item {
     background-color: #fff;
     border: 1px solid #ddd;
@@ -22,13 +22,13 @@
   }
 
   .scrollable-list {
-    max-height: 200px;
+    max-height: 600px;
     overflow-y: auto;
   }
   
   .selected {
-    background-color: #007bff;
+    background-color: #89a7f1;
     color: #fff;
-    border-color: #0056b3;
+    border-color: #89a7f1;
   }
   
