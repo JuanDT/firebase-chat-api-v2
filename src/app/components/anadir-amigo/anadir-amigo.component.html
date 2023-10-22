@@ -11,7 +11,7 @@
         <div class="col-2">
             <button class="btn btn-light " type="button" (click)="searchUsers()" style="width: 40px; height: 40px; background: url('../../../assets/images/R.png') no-repeat center center; background-size: cover;">               
             </button>
-        </div>
+        </div>              
     </div>
     
     <ul class="list-group mt-3 scrollable-list">
@@ -24,17 +24,19 @@
           <button class="btn custom-button" [disabled]="true">Enviada</button>
         </ng-container>
         <ng-container *ngIf="userStates[amigo.uid].isFriend">
-          <p style="color: rgb(49, 150, 76);">Este usuario ya hace parte de tus amigos</p>
+          <span style="color: rgb(49, 150, 76); margin-top: 6px; margin-bottom: 7px;">Este usuario ya hace parte de tus amigos</span>
         </ng-container>
         <ng-container *ngIf="userStates[amigo.uid].hasPendingReq">
-          <p style="color: rgb(32, 108, 239);">Solicitud de amistad ya enviada</p>
+          <span style="color: rgb(32, 108, 239); margin-top: 6px; margin-bottom: 7px;">Solicitud de amistad ya enviada</span>
         </ng-container>
       </li>
-    </ul>
-    
+    </ul> 
+    <div *ngIf="searchResults.length === 0 && buscado" class="text-center">
+      Sin resultados
+    </div>
     
     
     <div class="text-center mt-4">
-      <button class="btn btn-secondary" (click)="activeModal.close('Cerrar')">Cerrar</button>
+      <button class="btn btn-secondary" (click)="activeModal.close('Cerrar')" (click)="search()">Cerrar</button>
     </div>
  </div>

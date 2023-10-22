@@ -227,40 +227,34 @@ export class AmigosService {
 
   async searchFriends(userId: string, searchTerm: string): Promise<Usuario[]> {
     try {
-      const userRef = doc(collection(this.firestore, 'usuario'), userId);
-      const userDoc = await getDoc(userRef);
+      const userRef = doc(this.firestore, 'usuario', userId);
+      const amigosCollectionRef = collection(userRef, 'amigos');
+      const querySnapshot = await getDocs(amigosCollectionRef);
+      const friends: Usuario[] = [];
   
-      if (userDoc.exists()) {
-        const userData = userDoc.data();
-        if (userData && userData['amigos']) {
-          const friendIds: string[] = userData['amigos'];
+      for (const docSnap of querySnapshot.docs) {
+        const friendId = docSnap.id;
+        const friendRef = doc(this.firestore, 'usuario', friendId);
+        const friendDoc = await getDoc(friendRef);
   
-          const friendsPromises = friendIds.map(async (friendId) => {
-            const friendRef = doc(collection(this.firestore, 'usuario'), friendId);
-            const friendDoc = await getDoc(friendRef);
+        if (friendDoc.exists()) {
+          const friendData = friendDoc.data() as Usuario;
   
-            if (friendDoc.exists()) {
-              const friendData = friendDoc.data() as Usuario;
-  
-              if (friendData.uid !== userId && (friendData.displayName.includes(searchTerm) || friendData.email.includes(searchTerm))) {
-                return friendData;
-              }
-            }
-  
-            return null;
-          });
-  
-          const friendsData = await Promise.all(friendsPromises);
-          return friendsData.filter((friend) => friend !== null) as Usuario[];
+          if (friendData.displayName.includes(searchTerm) || friendData.email.includes(searchTerm)) {
+            friends.push(friendData);
+          }
         }
       }
   
-      return [];
+      return friends;
     } catch (error) {
       console.error('Error al buscar amigos por nickname o email:', error);
       throw error;
     }
   }
+  
+  
+
 
   async searchUsers(searchTerm: string, currentUserId: string): Promise<Usuario[]> {
     const usersCollection = collection(this.firestore, 'usuario');

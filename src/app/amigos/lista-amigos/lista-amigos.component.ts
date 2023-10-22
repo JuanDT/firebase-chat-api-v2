@@ -93,7 +93,7 @@ export class ListaAmigosComponent implements OnInit {
     const currentUser = user.currentUser
 
     if(currentUser){
-      this.amigos = await this.amigosService.searchFriends (currentUser.uid, this.searchTerm)
+      this.amigos = await this.amigosService.searchFriends(currentUser.uid, this.searchTerm)
     }
    }  
   }

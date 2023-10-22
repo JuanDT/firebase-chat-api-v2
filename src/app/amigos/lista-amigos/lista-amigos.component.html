@@ -24,8 +24,8 @@
         </div>
 
         <!-- Lista de amigos -->
-        <ul class="list-group mt-3">
-          <li *ngFor="let amigo of amigos" class="list-group-item d-flex justify-content-between align-items-center">
+        <ul class="list-group mt-3 scrollable-list">
+          <li *ngFor="let amigo of amigos" class="list-group-item d-flex justify-content-between align-items-center">           
            {{ amigo.displayName }}
             <button class="btn btn-danger" (click)="openDeleteConfirmation(amigo)" >Eliminar</button>
           </li>
@@ -41,7 +41,7 @@
    
 
       <div *ngIf="activeTab === 'solicitudes'">
-        <ul class="list-group mt-3">
+        <ul class="list-group mt-3 scrollable-list">
           <li *ngFor="let solicitud of solicitudes" class="list-group-item d-flex justify-content-between align-items-center">
             <p style="color: rgb(37, 37, 98);">{{ solicitud.remitente.displayName }}</p>
             <div class="btn-group">

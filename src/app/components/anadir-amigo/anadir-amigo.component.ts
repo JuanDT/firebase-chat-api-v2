@@ -22,7 +22,7 @@ export class AnadirAmigoComponent implements OnInit {
  friendFriendReq: SolicitudAmistad [] = [];
  hasPendingReq: boolean = false;
  sentConfirmation: boolean = false;
-
+ buscado: boolean = false;
  userStates: { [uid: string]: { isFriend: boolean, hasPendingReq: boolean, sentConfirmation: boolean } } = {};
 
   constructor(public activeModal: NgbActiveModal, private amigosService: AmigosService) { }
@@ -53,7 +53,7 @@ export class AnadirAmigoComponent implements OnInit {
       
          
         this.userStates = {};
-
+        this.buscado = true;
        
         this.searchResults.forEach((amigo) => {
           this.userStates[amigo.uid] = {
@@ -63,6 +63,10 @@ export class AnadirAmigoComponent implements OnInit {
           };
         });this.hasPendingReq = false;
     }
+  }
+
+  search(){
+    this.buscado = false;
   }
 
 
