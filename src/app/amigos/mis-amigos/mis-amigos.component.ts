@@ -14,7 +14,7 @@ export class MisAmigosComponent implements OnInit {
 
   amigos: Usuario[] = [];
   userUid:string = '';
-  amigoSeleccionado: Usuario | null = null;
+  amigoSeleccionado!: Usuario | null;
   searchTerm: string = '';
 
 
@@ -45,6 +45,7 @@ export class MisAmigosComponent implements OnInit {
   }
 
   seleccionarAmigo(amigo: Usuario) {
+    this.amigoSeleccionado = amigo;
     this.amigosService.setSelectedUid(amigo.uid);
     this.chatComponent.cargarChat()
 
