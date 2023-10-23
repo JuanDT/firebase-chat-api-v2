@@ -3,7 +3,7 @@ import { getAuth } from '@angular/fire/auth';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { SolicitudAmistad } from 'src/app/model/solicitudAmistad';
 import { Usuario } from 'src/app/model/usuario';
-import { AmigosService } from 'src/app/services/amigos-service.service';
+import { AmigosService } from 'src/app/amigos/amigos-service.service';
 
 @Component({
   selector: 'app-anadir-amigo',

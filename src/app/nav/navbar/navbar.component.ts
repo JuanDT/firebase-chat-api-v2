@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
-import { UserService } from 'src/app/services/user.service';
+import { UserService } from 'src/app/auth/user.service';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationModalComponent } from 'src/app/components/confirmation-modal/confirmation-modal.component';
@@ -44,7 +44,6 @@ export class NavbarComponent implements OnInit {
     const modalRef = this.modalService.open(ConfirmationModalComponent);
     modalRef.result.then((result) => {
       if (result === 'Cerrar') {
-        // El usuario confirmó, cierra la sesión
         this.logout();
       }
     }).catch((error) => {

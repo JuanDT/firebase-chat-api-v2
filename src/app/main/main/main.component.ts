@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { UserService } from 'src/app/services/user.service';
+import { UserService } from 'src/app/auth/user.service';
 import { Auth, User, getAuth } from '@angular/fire/auth';
 
 

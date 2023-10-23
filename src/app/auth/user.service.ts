@@ -7,6 +7,8 @@ import { Router } from '@angular/router';
 import { Firestore, collection, setDoc, doc, addDoc } from '@angular/fire/firestore';
 import {  getFirestore, updateDoc } from 'firebase/firestore';
 import { Usuario } from '../model/usuario';
+import { initializeApp } from '@angular/fire/app';
+import { environment } from 'src/environments/environment';
  
 
 
@@ -24,7 +26,8 @@ export class UserService {
   private email: string | null = null;
  
 
-  constructor(private auth: Auth, private firestore: Firestore) { }
+  constructor(private auth: Auth, private firestore: Firestore) {
+   }
 
   getEmail(): string | null {
     return this.email;

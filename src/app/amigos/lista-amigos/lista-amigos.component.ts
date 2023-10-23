@@ -6,8 +6,8 @@ import { AnadirAmigoComponent } from 'src/app/components/anadir-amigo/anadir-ami
 import { DeleteConfirmationComponent } from 'src/app/components/delete-confirmation/delete-confirmation.component';
 import { SolicitudAmistad } from 'src/app/model/solicitudAmistad';
 import { Usuario } from 'src/app/model/usuario';
-import { AmigosService } from 'src/app/services/amigos-service.service';
-import { ChatServiceService } from 'src/app/services/chat.service.service';
+import { AmigosService } from 'src/app/amigos/amigos-service.service';
+import { ChatServiceService } from 'src/app/chat/chat.service.service';
 
 
 

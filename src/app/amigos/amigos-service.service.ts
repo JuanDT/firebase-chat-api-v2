@@ -4,7 +4,7 @@ import { User } from 'firebase/auth';
 import { Usuario } from '../model/usuario';
 import firebase from 'firebase/compat/app';
 import { user } from '@angular/fire/auth';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { SolicitudAmistad } from '../model/solicitudAmistad';
 
 @Injectable({
@@ -13,6 +13,14 @@ import { SolicitudAmistad } from '../model/solicitudAmistad';
 export class AmigosService {
 
   constructor(private firestore: Firestore) { }
+
+  private selectedUidSource = new BehaviorSubject<string | null>(null);
+  selectedUid$ = this.selectedUidSource.asObservable();
+
+  setSelectedUid(uid: string | null) {
+    this.selectedUidSource.next(uid);
+    console.log(uid)
+  }
 
   async sendFriendRequest(senderUid: string, recipientUid: string): Promise<void> {
     const request: SolicitudAmistad = {

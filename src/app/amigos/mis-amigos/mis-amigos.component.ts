@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { getAuth } from '@angular/fire/auth';
 import { Usuario } from 'src/app/model/usuario';
-import { AmigosService } from 'src/app/services/amigos-service.service';
+import { AmigosService } from 'src/app/amigos/amigos-service.service';
+import { ChatComponent } from 'src/app/chat/chat/chat.component';
 
 @Component({
   selector: 'app-mis-amigos',
@@ -18,7 +19,7 @@ export class MisAmigosComponent implements OnInit {
 
 
 
-  constructor(private amigosService: AmigosService) { 
+  constructor(private amigosService: AmigosService,private  chatComponent: ChatComponent) { 
     const amigosData = localStorage.getItem('amigos');
   if (amigosData) {
     this.amigos = JSON.parse(amigosData);
@@ -43,18 +44,16 @@ export class MisAmigosComponent implements OnInit {
     }
   }
 
+  seleccionarAmigo(amigo: Usuario) {
+    this.amigosService.setSelectedUid(amigo.uid);
+    this.chatComponent.cargarChat()
+
+  }
+
   saveToLocalStorage() {
     localStorage.setItem('amigos', JSON.stringify(this.amigos));
   }
 
-  seleccionarAmigo(amigo: Usuario) {
-    this.amigoSeleccionado = amigo;
-
-    // Aquí puedes cargar el chat del amigo en la columna izquierda,
-    // tal como lo haces actualmente en el componente 'app-chat'.
-    // Puedes usar la variable 'amigoSeleccionado' para cargar el chat
-    // correspondiente en base al amigo seleccionado.
-  }
 
   async searchFriends() {
 

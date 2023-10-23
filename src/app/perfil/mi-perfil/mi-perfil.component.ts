@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
-import { UserService } from 'src/app/services/user.service';
+import { UserService } from 'src/app/auth/user.service';
 
 @Component({
   selector: 'app-mi-perfil',

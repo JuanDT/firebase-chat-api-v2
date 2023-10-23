@@ -1,13 +1,14 @@
 import {  Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { UserService } from 'src/app/services/user.service';
+import { UserService } from 'src/app/auth/user.service';
 import { Auth, User, getAuth, provideAuth, createUserWithEmailAndPassword, updateProfile, user } from '@angular/fire/auth';
-import { getStorage,  ref, uploadBytes } from 'firebase/storage';
+
 import { getApp, initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { environment } from 'src/environments/environment';
 import { Usuario } from 'src/app/model/usuario';
 import { addDoc, collection, doc, getFirestore, setDoc } from 'firebase/firestore';
+import { getStorage, ref, uploadBytes } from '@angular/fire/storage';
 
 @Component({
   selector: 'app-register',
@@ -92,9 +93,9 @@ export class RegisterComponent  implements OnInit {
             .then(async () => {
               if (photo) {
                 console.log("hay imagen")
-                const app = initializeApp(environment.firebase)
                 console.log("storage")
-                const storage = getStorage(app);
+                const storage = getStorage();
+                
                 console.log("storage2")
                 const storageRef = ref(storage, `profile_photos/${user.uid}`);
                 const photoBlob = new Blob([photo as BlobPart], { type: 'image/jpeg' }); 
