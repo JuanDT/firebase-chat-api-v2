@@ -1,38 +1,32 @@
 <div class="row">
-<div class="col-lg-7 col-md-7 col-sm-7">
-
-  <div class="card text-center cardContainer mt-2 chat-component" *ngIf="currentUser">
-    <div class="card-header">
-     
-    </div>
-    <div class="card-body">
-      <div>
-        <p *ngFor="let chat of info" class="p-1">
-          <ng-container *ngFor="let mensaje of chat.mensajes">
-            <p
-              [ngClass]="{ 'enviado': mensaje.remitente === currentUser.uid, 'recibido': mensaje.remitente !== currentUser.uid }"
-              class="p-1"
-            >
-              {{ mensaje.contenido }}
-            </p>
+  <div class="col-lg-7 col-md-7 col-sm-7">
+    <div class="card text-center cardContainer mt-2 chat-component" *ngIf="currentUser">
+      <div class="card-header">
+        <!-- Encabezado del chat -->
+      </div>
+      <div class="card-body">
+        <div>
+          <ng-container *ngFor="let chat of chats">
+            <ng-container *ngFor="let mensaje of chat.mensajes">
+              <p [ngClass]="{'enviado': mensaje.remitente === currentUser, 'recibido': mensaje.remitente !== currentUser }">
+                {{   mensaje.contenido }}
+              </p>
+            </ng-container>
           </ng-container>
-        </p>
+        </div>
       </div>
+      <form class="card-footer text-muted input-group" (ngSubmit)="enviarMensaje()">
+        <input type="text" class="form-control" placeholder="Mensaje" [(ngModel)]="nuevoMensaje" [ngModelOptions]="{standalone: true}">
+        <div class="input-group-append" (click)="enviarMensaje()">
+          <span class="input-group-text imgEnviar" id="basic-addon2">
+            <img class="imgEnviar" src="../../../assets/images/sent_icon-icons.com_65731.png" width="25px" alt="send message">
+          </span>
+        </div>
+      </form>
     </div>
-    <form class="card-footer text-muted input-group" (ngSubmit)="enviarMensaje()">
-      <input type="text" class="form-control" placeholder="Mensaje" [(ngModel)]="nuevoMensaje" [ngModelOptions]="{standalone: true}">
-      <div class="input-group-append" (click)="enviarMensaje()">
-        <span class="input-group-text imgEnviar" id="basic-addon2">
-          <img class="imgEnviar" src="../../../assets/images/sent_icon-icons.com_65731.png" width="25px" alt="send message">
-        </span>
-      </div>
-    </form>
   </div>
-  
-</div>
 
-  <div class="col-lg-5 col-md-5 col-sm5">
+  <div class="col-lg-5 col-md-5 col-sm-5">
     <app-mis-amigos></app-mis-amigos>
- </div>
-
+  </div>
 </div>

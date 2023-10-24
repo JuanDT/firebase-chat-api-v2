@@ -48,6 +48,7 @@ export class MisAmigosComponent implements OnInit {
     this.amigoSeleccionado = amigo;
     this.amigosService.setSelectedUid(amigo.uid);
     this.chatComponent.cargarChat()
+    console.log("currentUser"+this.userUid)
 
   }
 

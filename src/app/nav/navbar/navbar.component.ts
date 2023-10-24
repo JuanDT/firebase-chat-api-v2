@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Auth } from '@angular/fire/auth';
+import { Auth, User, getAuth } from '@angular/fire/auth';
 import { UserService } from 'src/app/auth/user.service';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -12,6 +12,7 @@ import { ConfirmationModalComponent } from 'src/app/components/confirmation-moda
 })
 export class NavbarComponent implements OnInit {
   userLogged: any;
+  currentUser: User | null = null;
  
 
   constructor(private auth: Auth, private userService: UserService, private router: Router, private modalService: NgbModal) {
@@ -19,6 +20,19 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    const auth = getAuth();
+
+   const user = auth.currentUser;
+
+   if (user) {
+     this.currentUser = user;
+     
+     
+     console.log('Usuario actual:', this.currentUser);
+   } else {
+     this.currentUser = null;
+   }
     const userData = localStorage.getItem('userData');
     
     if (userData) {

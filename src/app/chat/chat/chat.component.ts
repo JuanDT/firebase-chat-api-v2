@@ -7,6 +7,7 @@ import { timestamp } from 'rxjs';
 import { FieldValue, serverTimestamp } from '@angular/fire/firestore';
 import { ChatServiceService } from '../chat.service.service';
 import { AmigosService } from 'src/app/amigos/amigos-service.service';
+import { Chat } from 'src/app/model/chat';
 
 @Component({
   selector: 'app-chat',
@@ -15,19 +16,13 @@ import { AmigosService } from 'src/app/amigos/amigos-service.service';
 })
 export class ChatComponent implements OnInit {
 
-  currentUser: any;
+  currentUser!: string;
   nuevoMensaje: string = '';
   selectedUid!: string | null;
-  info: { chatId: string; mensajes: Mensaje[]; }[] = [];
+  chats: Chat[] = [];
+  mensajes: Mensaje[] = [];
 
-  mensajes: Mensaje[] = [
-    {
-    id: '',
-    remitente: '',
-    contenido: '',
-    fechaEnvio: serverTimestamp(),
-    }
-  ];
+
 
   constructor(private authService: UserService, private auth: Auth, private chatService: ChatServiceService, private amigosService: AmigosService) { 
     this.amigosService.selectedUid$.subscribe((uid) => {
@@ -47,38 +42,62 @@ export class ChatComponent implements OnInit {
   }
 
   enviarMensaje() {
-   
     if (this.selectedUid) {
-
-      for (let i = 0; i < this.info.length; i++) {
-        const chatUid = this.info[i].chatId;
-        console.log('Chat UID del chat en la posición', i, ':', chatUid);
-      
-      if (chatUid) {
-        const chatId = chatUid;
-        const remitente = this.currentUser.uid; 
+      const chat = this.chats.find((chat) => chat.id);
+      console.log("chatId"+chat?.id)
+      if (chat) {
+        const chatId = chat.id;
+        const remitente = this.currentUser;
         const contenido = this.nuevoMensaje;
   
-        this.chatService.enviarMensaje(chatId, this.currentUser, contenido);
-        console.log("se envio el mensaje")
+        this.chatService.enviarMensaje(chatId, remitente, contenido);
+        console.log("Se envió el mensaje");
         this.nuevoMensaje = '';
+        this.cargarChat()
+      } else {
+        console.log("No se envió el mensaje: No se encontró el chat seleccionado.");
       }
+    } else {
+      console.log("No se envió el mensaje: No se ha seleccionado un chat.");
     }
-      console.log("hay uid No se envio el mensaje")
-    }
-    console.log("No se envio el mensaje")
   }
   
 
 async cargarChat() {
   if(this.selectedUid){ 
     try {
-    this.info = await this.chatService.cargarMensajes(this.currentUser, this.selectedUid);
-    console.log(this.info.length)
+    this.chats = await this.chatService.cargarMensajes(this.currentUser, this.selectedUid);
+    const chat = this.chats.find((chat) => chat.id);
+    const chatId = chat?.id;
+    if(chatId){
+      this.mensajes = await this.chatService.obtenerMensajesDelChat(chatId)
+      console.log("tamaño:"+this.chats.length, this.mensajes)
+    }   
+    this.mostrarMensajesEnConsola()
    } catch (error) {
     console.error('Error al cargar mensajes:', error);
   }
 }
 }
+
+mostrarMensajesEnConsola() {
+  this.chats.forEach((chat: Chat) => {
+    console.log(`Chat ID: ${chat.id}`);
+    if(chat.participantes.length >= 1){
+     console.log("hay participantes")
+    }
+    if(chat.mensajes.length >= 1){
+      console.log("hay mensajes")
+
+    }
+    chat.participantes.forEach((participantes) => {
+      console.log(`Remitente: ${participantes}`);
+      console.log('-------------------------');
+    });
+  });
+}
+
+
+
 
 }
