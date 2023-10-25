@@ -4,13 +4,13 @@
       <div class="card-header">
         <!-- Encabezado del chat -->
       </div>
-      <div class="card-body">
+      <div class="card-body" style="overflow-y: auto; max-height: 500px;">
         <div>
           <ng-container *ngFor="let chat of chats">
             <ng-container *ngFor="let mensaje of chat.mensajes">
-              <p [ngClass]="{'enviado': mensaje.remitente === currentUser, 'recibido': mensaje.remitente !== currentUser }">
-                {{   mensaje.contenido }}
-              </p>
+              <div [ngClass]="{'enviado': mensaje.remitente === currentUser, 'recibido': mensaje.remitente !== currentUser }">
+                <p ngClass="texto" style="margin-left: 8px;">{{ mensaje.contenido }}</p>
+              </div>
             </ng-container>
           </ng-container>
         </div>

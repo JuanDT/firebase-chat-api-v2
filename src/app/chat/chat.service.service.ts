@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FieldValue, Firestore, QuerySnapshot, addDoc, collection, doc, getDocs, query, serverTimestamp, setDoc, where } from '@angular/fire/firestore';
+import { FieldValue, Firestore, QuerySnapshot, addDoc, collection, doc, getDocs, orderBy, query, serverTimestamp, setDoc, where } from '@angular/fire/firestore';
 import { Chat } from '../model/chat';
 import { v4 as uuidv4 } from 'uuid';
 import { Mensaje } from '../model/mensaje';
@@ -34,29 +34,33 @@ export class ChatServiceService {
 
   async enviarMensaje(chatId: string, remitente: string, contenido: string): Promise<void> {
     try {
-     
-      const mensaje: Mensaje = {
-        id: '', 
-        remitente: remitente,
-        contenido: contenido,
-        fechaEnvio: serverTimestamp()
-      };
+        const mensaje: Mensaje = {
+            id: '',
+            remitente: remitente,
+            contenido: contenido,
+            fechaEnvio: serverTimestamp(),
+        };
 
-      const mensajeCollection = collection(this.firestore, 'chats', chatId, 'mensajes');
-      const nuevoMensajeRef = await addDoc(mensajeCollection, mensaje);
+        const mensajeCollection = collection(this.firestore, 'chats', chatId, 'mensajes');
 
-      mensaje.id = nuevoMensajeRef.id;
+        const mensajesQuery = query(mensajeCollection, orderBy('fechaEnvio', 'desc'));
 
-      const mensajeDoc = doc(mensajeCollection, nuevoMensajeRef.id);
-      await setDoc(mensajeDoc, mensaje);
-      console.log("El mensaje se envió")
+        const nuevoMensajeRef = await addDoc(mensajeCollection, mensaje);
 
+        mensaje.id = nuevoMensajeRef.id;
+
+        const mensajeDoc = doc(mensajeCollection, nuevoMensajeRef.id);
+        await setDoc(mensajeDoc, mensaje);
+        console.log("El mensaje se envió");
 
     } catch (error) {
-      console.error('Error al enviar mensaje:', error);
-      throw error;
+        console.error('Error al enviar mensaje:', error);
+        throw error;
     }
-  }
+}
+
+
+
 
   async actualizarUltimoMensaje(chatId: string, ultimoMensaje: Mensaje): Promise<void> {
     try {
@@ -92,7 +96,6 @@ export class ChatServiceService {
             mensajes.push(mensajeDoc.data() as Mensaje);
           });
   
-          // Agregar los mensajes al chat
           chatData.mensajes = mensajes;
   
           chats.push(chatData);
@@ -108,7 +111,7 @@ export class ChatServiceService {
   
   async obtenerMensajesDelChat(chatId: string): Promise<Mensaje[]> {
     const mensajesCollection = collection(this.firestore, 'chats', chatId, 'mensajes');
-    const mensajesQuery = query(mensajesCollection);
+    const mensajesQuery = query(mensajesCollection, orderBy('fechaEnvio'));
 
     const mensajes: Mensaje[] = [];
 
@@ -119,14 +122,16 @@ export class ChatServiceService {
             const mensajeData = doc.data() as Mensaje;
             mensajes.push(mensajeData);
         });
-        console.log("se obtuvieron los mensajes del chat")
+
+        console.log('Se obtuvieron los mensajes del chat en orden de fecha.');
         return mensajes;
     } catch (error) {
         console.error('Error al obtener mensajes del chat:', error);
         throw error;
     }
-  
-  
   }
+
+
+
   
 }
