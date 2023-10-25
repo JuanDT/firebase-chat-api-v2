@@ -3,8 +3,8 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 
 export interface Mensaje {
-    id: string; 
+    id: number; 
     remitente: string; 
     contenido: string; 
-    fechaEnvio: FieldValue; 
+    fechaEnvio: FieldValue;
   }

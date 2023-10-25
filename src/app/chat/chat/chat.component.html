@@ -9,7 +9,7 @@
           <ng-container *ngFor="let chat of chats">
             <ng-container *ngFor="let mensaje of chat.mensajes">
               <div [ngClass]="{'enviado': mensaje.remitente === currentUser, 'recibido': mensaje.remitente !== currentUser }">
-                <p ngClass="texto" style="margin-left: 8px;">{{ mensaje.contenido }}</p>
+                <p class="texto" style="margin-left: 8px;">{{ mensaje.contenido }}</p>
               </div>
             </ng-container>
           </ng-container>

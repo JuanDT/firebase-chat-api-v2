@@ -80,6 +80,8 @@ async cargarChat() {
 }
 }
 
+
+
 mostrarMensajesEnConsola() {
   this.chats.forEach((chat: Chat) => {
     console.log(`Chat ID: ${chat.id}`);

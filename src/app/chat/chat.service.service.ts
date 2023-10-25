@@ -34,30 +34,34 @@ export class ChatServiceService {
 
   async enviarMensaje(chatId: string, remitente: string, contenido: string): Promise<void> {
     try {
+        const mensajes = await this.obtenerMensajesDelChat(chatId);
+
+        const ultimaPosicion = mensajes.length > 0 ? +mensajes[mensajes.length - 1].id : -1;
+        const nuevaPosicion = ultimaPosicion + 1;
+
         const mensaje: Mensaje = {
-            id: '',
+            id: nuevaPosicion, // Convierte el ID a cadena
             remitente: remitente,
             contenido: contenido,
             fechaEnvio: serverTimestamp(),
         };
-
+        let id= '';
+        id = mensaje.id.toString()
         const mensajeCollection = collection(this.firestore, 'chats', chatId, 'mensajes');
+        const mensajeDoc = doc(mensajeCollection, id);
 
-        const mensajesQuery = query(mensajeCollection, orderBy('fechaEnvio', 'desc'));
-
-        const nuevoMensajeRef = await addDoc(mensajeCollection, mensaje);
-
-        mensaje.id = nuevoMensajeRef.id;
-
-        const mensajeDoc = doc(mensajeCollection, nuevoMensajeRef.id);
         await setDoc(mensajeDoc, mensaje);
-        console.log("El mensaje se envió");
+
+        console.log("El mensaje se envió con id:", mensaje.id);
 
     } catch (error) {
         console.error('Error al enviar mensaje:', error);
         throw error;
     }
 }
+
+
+
 
 
 
@@ -111,7 +115,7 @@ export class ChatServiceService {
   
   async obtenerMensajesDelChat(chatId: string): Promise<Mensaje[]> {
     const mensajesCollection = collection(this.firestore, 'chats', chatId, 'mensajes');
-    const mensajesQuery = query(mensajesCollection, orderBy('fechaEnvio'));
+    const mensajesQuery = query(mensajesCollection, orderBy('id'));
 
     const mensajes: Mensaje[] = [];
 

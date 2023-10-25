@@ -31,8 +31,8 @@
     display: block;
     float: right;
     background-color: rgb(10, 138, 104);
-    min-width: 50.01%;
-    width: 50%;
+    min-width: 49%;
+    width: 50.01%;
     border-radius: 10px;
     text-align: left;
     color: aliceblue;
@@ -44,8 +44,8 @@
     display: block;
     float: left;
     background-color: rgb(127, 130, 130);
-    min-width: 50.01%;
-    width: 50%;
+    min-width: 49%;
+    width: 50.01%;
     border-radius: 10px;
     text-align: left;
     color: aliceblue;
