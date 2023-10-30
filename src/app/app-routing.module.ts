@@ -9,13 +9,30 @@ import { StartComponent } from './components/start/start.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { DashboardComponent } from './dashboard/dashboard/dashboard.component';
 import { MiPerfilComponent } from './perfil/mi-perfil/mi-perfil.component';
+import { ChatComponent } from './chat/chat/chat.component';
+import { ChatGPTComponent } from './chat/chat-gpt/chat-gpt.component';
 
 const routes: Routes = [
   { path: '', component: StartComponent },
   {
     path: 'dashboard',
     component: DashboardComponent,
-    ...canActivate(() => redirectUnauthorizedTo(['/login']))
+    ...canActivate(() => redirectUnauthorizedTo(['/auth/login']))
+  },
+  {
+    path: 'dashboard',
+    component: DashboardComponent,
+    ...canActivate(() => redirectUnauthorizedTo(['/auth/login'])),
+    children: [
+      {
+        path: 'main',
+        component: MainComponent,
+        children: [
+          { path: '', component: ChatComponent },
+          { path: 'ia-chatmart', component: ChatGPTComponent },
+        ]
+      }
+    ]
   },
   { path: 'auth', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule) },
   { path: 'sobreNosotros', component: SobreNosotrosComponent},

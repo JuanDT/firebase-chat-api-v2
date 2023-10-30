@@ -15,5 +15,9 @@ export const environment = {
   production: false
 };
 
+export const enviromentAI ={
+  production: false,
+  apiKey: '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'
+}
 
 

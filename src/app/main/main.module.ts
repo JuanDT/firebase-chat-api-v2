@@ -20,6 +20,7 @@ import { AmigosModule } from '../amigos/amigos.module';
     ChatModule,
     FooterModule,
     AmigosModule
+    
   ], exports:[MainComponent]
 })
 export class MainModule { }

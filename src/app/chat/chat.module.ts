@@ -5,11 +5,14 @@ import { ChatRoutingModule } from './chat-routing.module';
 import { ChatComponent } from './chat/chat.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AmigosModule } from '../amigos/amigos.module';
+import { ChatGPTComponent } from './chat-gpt/chat-gpt.component';
 
 
 @NgModule({
   declarations: [
-    ChatComponent
+    ChatComponent,
+    ChatGPTComponent
+    
   ],
   imports: [
     CommonModule,
@@ -17,6 +20,6 @@ import { AmigosModule } from '../amigos/amigos.module';
     FormsModule,
     ReactiveFormsModule,
     AmigosModule
-  ],exports:[ChatComponent]
+  ],exports:[ChatComponent, ChatGPTComponent]
 })
 export class ChatModule { }

@@ -64,12 +64,7 @@ export class LoginComponent implements OnInit {
       this.forgotPasswordError = 'Por favor, ingrese una dirección de correo electrónico válida.';
     } else {
 
-     fetchSignInMethodsForEmail(this.auth,email)
-      .then((methods) => {
-        if (methods.length === 0) {
-         
-          this.forgotPasswordError = 'No se encontró una cuenta con este correo electrónico.';
-        } else {
+      
           
           
             sendPasswordResetEmail(this.auth,email)
@@ -86,11 +81,8 @@ export class LoginComponent implements OnInit {
               console.error('Error al enviar el correo de restablecimiento:', error);
             });
         }
-      })
-      .catch((error) => {
-        console.error('Error al verificar el correo:', error);
-      });
-    }
+      
+    
   }
 
  // Método para cerrar la ventana emergente
@@ -118,7 +110,7 @@ enabledOkButton(){
             this.userService.login(this.formLogin.value)
               .then(response => {
                 console.log(response);
-                this.router.navigate(['/dashboard']);
+                this.router.navigate(['/dashboard/main']);
               })
               .catch(error => {
                 console.log(error);
@@ -154,7 +146,7 @@ enabledOkButton(){
           console.log(usuario.uid, usuario.email, usuario.displayName)
          
           this.userService.saveUser(usuario)
-          this.router.navigate(['/dashboard']);
+          this.router.navigate(['/dashboard/main']);
         } else {
           console.error('No se pudo obtener el usuario autenticado.');
         }

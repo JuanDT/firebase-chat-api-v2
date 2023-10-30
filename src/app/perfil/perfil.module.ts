@@ -6,6 +6,7 @@ import { MiPerfilComponent } from './mi-perfil/mi-perfil.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NavModule } from '../nav/nav.module';
 import { AmigosModule } from '../amigos/amigos.module';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { AmigosModule } from '../amigos/amigos.module';
     FormsModule,
     ReactiveFormsModule,
     NavModule,
-    AmigosModule
+    AmigosModule,
+    HttpClientModule
  
   ], exports:[MiPerfilComponent]
 })

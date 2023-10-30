@@ -25,9 +25,14 @@ export class UserService {
 
   private email: string | null = null;
  
+  private authenticated = false;
 
   constructor(private auth: Auth, private firestore: Firestore) {
    }
+
+   isAuthenticated(): boolean {
+    return this.authenticated;
+  }
 
   getEmail(): string | null {
     return this.email;
@@ -79,7 +84,7 @@ export class UserService {
       this.email = email;
       console.log(userToken)
       
-
+      this.authenticated = true;
       return userCredential;
     });
     }
@@ -107,7 +112,7 @@ export class UserService {
         this.userTokens.set(userToken, email);
         this.email = email;
         console.log(userToken)
-
+        this.authenticated = true;
         return userCredential;        
   
       } catch (error) {
@@ -187,12 +192,11 @@ export class UserService {
             });
             console.log("size: "+this.userTokens.size)
           }
-           
+           this.authenticated = false;
       }
        
     }
 
-    // Cerrar sesión con Firebase
     await signOut(this.auth);
   }
 
