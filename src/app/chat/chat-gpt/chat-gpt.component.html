@@ -3,16 +3,16 @@
       <h2>IA Chatmart</h2>
     </div>
     <div class="chat-messages">
-      <div class="message" >
-        <div class="respuesta" >
-          <p></p>
+      <div class="row message" >
+        <div class="col-12 respuesta scrollable-list" >
+          
         </div>
       </div>
     </div>
     <div class="chat-input">
       <input [(ngModel)]="message" type="text" placeholder="Envía un mensaje">
-      <button (click)="sendMessage()" >Enviar</button>
-      <button (click)="clear()" >Limpiar</button>
+      <button  class="send" (click)="sendMessage()" >Enviar</button>
+      <button class="clear" (click)="clear()" >Limpiar</button>
     </div>
   </div>
   

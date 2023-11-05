@@ -15,6 +15,7 @@ import { enviromentAI } from 'src/environments/environment';
 export class ChatGPTComponent implements OnInit {
 
   message!: string;
+  
 
   constructor( private chatgptService: ChatGPTService ){ }
 

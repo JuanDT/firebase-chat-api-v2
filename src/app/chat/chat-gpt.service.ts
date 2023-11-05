@@ -4,10 +4,12 @@ import { enviromentAI, environment } from 'src/environments/environment'; // Ase
 import { from, filter, map } from 'rxjs';
 import { Configuration, OpenAIApi } from "openai";
 import { data } from 'jquery';
+import * as $ from 'jquery';
 
 
 
 const APIKEY = enviromentAI.apiKey;
+
 
 @Injectable({
   providedIn: 'root',
@@ -35,12 +37,18 @@ export class ChatGPTService {
             map(resp=>resp.data),
             filter((data:any)=>(
 
-            data.choices && data.choices.length > 0 && data.choices[0].text
+            data.choices && data.choices.length > 0 && data.choices[0].text        
           )),
           map(data=>data.choices[0].text)
 
          ).subscribe(data=>{
           console.log(data);
+
+          $('.respuesta').append(`
+          <ul class="list-group mb-2">
+          <li class="list-group-item text-light" style="background-color:rgb(127, 130, 130);">${data}</li><br>
+          </ul>
+          `)
          })
         
   }
