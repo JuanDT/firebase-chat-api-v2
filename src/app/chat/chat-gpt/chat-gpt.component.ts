@@ -1,11 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-
 import { ChatGPTService } from '../chat-gpt.service';
-import { Configuration, OpenAIApi } from "openai";
-
-import { enviromentAI } from 'src/environments/environment';
-
-
+import { getAuth } from '@angular/fire/auth';
+import { Mensaje } from 'src/app/model/mensaje';
 
 @Component({
   selector: 'app-chat-gpt',
@@ -13,24 +9,46 @@ import { enviromentAI } from 'src/environments/environment';
   styleUrls: ['./chat-gpt.component.css']
 })
 export class ChatGPTComponent implements OnInit {
+  message: string = '';
+  messageTemp: string = '';
 
-  message!: string;
+  currentUser: string = '';
+
+  msg: Mensaje[] = [];
   
 
-  constructor( private chatgptService: ChatGPTService ){ }
+  constructor(private chatgptService: ChatGPTService) {}
 
- 
-  ngOnInit(): void {
-  
+  async ngOnInit() {
+    const user = getAuth().currentUser;
+    if (user) {
+      this.currentUser = user.uid;
+    }
+    this.cargarChat()
   }
 
-  sendMessage(){
-    this.chatgptService.getDataFromOpenAI(this.message);
-    this.message = '';
+  async sendMessage() {
+    if (this.message.trim() !== '') {
+      
+      this.chatgptService.getDataFromOpenAI(this.message, this.currentUser);
+      this.messageTemp = this.message;
+      this.message = ''; 
+      await this.cargarChat()
+    }
+    
   }
 
-  clear(){
-    location.reload()
+  async cargarChat(){
+    try {
+      this.msg = await this.chatgptService.obtenerMensajesDeChatGpt(this.currentUser);
+      
+    } catch (error) {
+      console.error('Error al obtener mensajes:', error);
+    }
+    console.log(this.msg)
   }
-  
+
+  clear() {
+    this.msg = [];
+  }
 }

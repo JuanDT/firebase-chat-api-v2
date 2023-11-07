@@ -89,5 +89,19 @@
   
   .chat-input button:hover {
     background: #0097a7;
+    background-color: rgb(32, 210, 230);
   }
+
+
+
+
+.user-message-text {
+  text-align: left;
+ 
+}
+
+.openai-message-text {
+  text-align: left;
+}
+
   

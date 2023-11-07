@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { getAuth } from '@angular/fire/auth';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-sobre-nosotros',
@@ -7,9 +9,26 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SobreNosotrosComponent implements OnInit {
 
-  constructor() { }
+   activeUser:boolean = false;
+
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
+    const user = getAuth();
+    const currentUser = user.currentUser
+    if(currentUser){
+         this.activeUser = true
+    }   
+  }
+
+  onClick(){
+    if(this.activeUser){
+      this.router.navigate(['/dashboard/main']);
+
+    }else{
+      this.router.navigate(['/']);
+
+    }
   }
 
 }
