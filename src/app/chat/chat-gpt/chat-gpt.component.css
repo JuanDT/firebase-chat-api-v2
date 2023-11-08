@@ -1,6 +1,6 @@
 .chat-container {
     width: 900px;
-    height: 400px;
+    height: 430px;
     margin: 20px auto;
     background: #f3f3f3;
     border-radius: 10px;
@@ -33,10 +33,26 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
 
+
+
   .scrollable-list {
     max-height: 300px;
     overflow-y: auto;
+    scrollbar-width: none; /* Oculta la barra de desplazamiento en navegadores que soportan esta propiedad */
   }
+  
+  .scrollable-list::-webkit-scrollbar {
+    width: 0.5rem; /* Ancho de la barra de desplazamiento en navegadores WebKit (por ejemplo, Chrome) */
+  }
+  
+  .scrollable-list::-webkit-scrollbar-thumb {
+    background-color: #888; /* Color del pulgar de la barra de desplazamiento en navegadores WebKit */
+  }
+  
+  .scrollable-list::-webkit-scrollbar-track {
+    background: transparent; /* Color de fondo de la barra de desplazamiento en navegadores WebKit */
+  }
+  
   
   .message.sent {
     background: #49afbc;
@@ -89,7 +105,7 @@
   
   .chat-input button:hover {
     background: #0097a7;
-    background-color: rgb(32, 210, 230);
+    background-color: rgb(32, 210, 230);  
   }
 
 
@@ -103,5 +119,41 @@
 .openai-message-text {
   text-align: left;
 }
+
+
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+.spinner {
+  display: flex;
+  width: 50px;
+  height: 1em;
+  margin-left: 10px;
+}
+
+.spinner > div {
+  width: 50px;
+  height: 1em;
+  justify-content: space-between;
+  background-color: #676a6e94;
+  display: flex;
+  animation: blink 1s infinite;
+}
+
+.spinner > div:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.spinner > div:nth-child(3) {
+  animation-delay: 0.4s; 
+}
+
 
   

@@ -143,7 +143,7 @@ export class ListaAmigosComponent implements OnInit {
      this.listFriends()
      this.loadFriendRequests()
      this.ngOnInit()
-     location.reload()
+     
   }
 
   rejectFriendRequest(senderUid: string){

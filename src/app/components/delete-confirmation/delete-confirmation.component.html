@@ -1,17 +1,17 @@
 
     <div class="popup">  
         <div class="popup-content">
-        <div class="modal-header" >
-            <h4 class="modal-title">Confirmación</h4>
-            <button type="button" class="close" aria-label="Cerrar" (click)="activeModal.dismiss('Cerrar')">
-            <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-            <div class="modal-body">
+            <div class="modal-header text-center">
+                <div class="mx-auto">
+                    <h4 class="modal-title"><img src="../../../assets/images/friendsIcon.png" width="20%" alt=""></h4>
+                </div>
+            </div>
+            <div class="modal-body text-center">
                 ¿Deseas eliminar a <span style="color: rgb(64, 64, 232);">{{friendDisplayName}}</span> de tus amigos?
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn pastel-blue" (click)="activeModal.close('Eliminar')">Confirmar</button>
+                <button type="button" class="btn btn-secondary" (click)="activeModal.dismiss('Cerrar')">Cancelar</button>
             </div>  
         </div>
                                 

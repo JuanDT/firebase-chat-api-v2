@@ -5,7 +5,7 @@ import { from, filter, map } from 'rxjs';
 import { Configuration, OpenAIApi } from "openai";
 import { data } from 'jquery';
 import * as $ from 'jquery';
-import { Firestore, addDoc, collection, doc, getDocs, orderBy, query, serverTimestamp, setDoc } from '@angular/fire/firestore';
+import { Firestore, addDoc, collection, deleteDoc, doc, getDocs, orderBy, query, serverTimestamp, setDoc } from '@angular/fire/firestore';
 import { Mensaje } from '../model/mensaje';
 import { v4 as uuidv4 } from 'uuid';
 import { user } from '@angular/fire/auth';
@@ -106,6 +106,29 @@ export class ChatGPTService {
     }
   }
   
+  async eliminarChatGpt(userId: string): Promise<void> {
+    try {
+      const userRef = doc(this.firestore, 'usuario', userId);
+      const chatGptCollectionRef = collection(userRef, 'chatGpt');
+  
+      const chatGptQuery = query(chatGptCollectionRef);
+      const chatGptQuerySnapshot = await getDocs(chatGptQuery);
+  
+      if (!chatGptQuerySnapshot.empty) {
+        const chatGptId = chatGptQuerySnapshot.docs[0].id;
+  
+        await deleteDoc(doc(chatGptCollectionRef, chatGptId));
+        $('.respuesta-temp').hide()        
+        
+        console.log('Chat GPT eliminado correctamente.');
+      } else {
+        console.log('No se encontró ningún chat GPT para eliminar.');
+      }
+    } catch (error) {
+      console.error('Error al eliminar el chat GPT:', error);
+      throw error;
+    }
+  }
   
   
 
@@ -113,7 +136,7 @@ export class ChatGPTService {
 
 
   getDataFromOpenAI(text: string, userId: string){
-       $('.respuesta-temp').hide
+
        from(this.openai.createCompletion({
           model: 'text-davinci-003',
           prompt: text,
@@ -132,9 +155,12 @@ export class ChatGPTService {
          ).subscribe(async data=>{
           console.log(data);
            await this.guardarChatGpt(userId, data ,text)
+           $('.respuesta-temp').hide()
+           $('.respuesta-temp').show()
            $('.respuesta-temp').append(`
            <ul class="list-group mb-2">
-           <li class="list-group-item text-light" style="background-color:rgb(127, 130, 130);">${data}</li><br>
+           <li class="list-group-item text-light" style="background-color:rgb(25, 151, 164);border-radius: 5px">${text}</li><br>
+           <li class="list-group-item text-light" style="background-color:rgb(127, 130, 130);border-radius: 5px">${data}</li><br>
            </ul>
            `)
  

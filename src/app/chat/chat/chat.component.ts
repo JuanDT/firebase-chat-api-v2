@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewChecked } from '@angular/core';
 import { Usuario } from 'src/app/model/usuario';
 import { UserService } from 'src/app/auth/user.service';
 import { Auth, getAuth } from '@angular/fire/auth';
@@ -14,46 +14,47 @@ import { Chat } from 'src/app/model/chat';
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.css']
 })
-export class ChatComponent implements OnInit {
-
+export class ChatComponent implements OnInit, AfterViewChecked {
   currentUser!: string;
   nuevoMensaje: string = '';
   selectedUid!: string | null;
   chats: Chat[] = [];
   mensajes: Mensaje[] = [];
 
+  @ViewChild('scrollableList', { read: ElementRef }) scrollableList!: ElementRef;
 
-
-  constructor(private authService: UserService, private auth: Auth, private chatService: ChatServiceService, private amigosService: AmigosService) { 
+  constructor(private authService: UserService, private auth: Auth, private chatService: ChatServiceService, private amigosService: AmigosService) {
     this.amigosService.selectedUid$.subscribe((uid) => {
       this.selectedUid = uid;
     });
-    
-    
   }
 
   ngOnInit(): void {
     const user = getAuth();
-    const currentUser = user.currentUser
-    if(currentUser){
-      this.currentUser = currentUser.uid
-    }   
-    this.cargarChat()
+    const currentUser = user.currentUser;
+    if (currentUser) {
+      this.currentUser = currentUser.uid;
+    }
+    this.cargarChat();
+  }
+
+  ngAfterViewChecked() {
+    this.scrollToLastElement();
   }
 
   enviarMensaje() {
-    if (this.selectedUid) {
+    if (this.selectedUid &&  this.nuevoMensaje != '') {
       const chat = this.chats.find((chat) => chat.id);
-      console.log("chatId"+chat?.id)
+      console.log("chatId" + chat?.id);
       if (chat) {
         const chatId = chat.id;
         const remitente = this.currentUser;
         const contenido = this.nuevoMensaje;
-  
+
         this.chatService.enviarMensaje(chatId, remitente, contenido);
         console.log("Se envió el mensaje");
         this.nuevoMensaje = '';
-        this.cargarChat()
+        this.cargarChat();
       } else {
         console.log("No se envió el mensaje: No se encontró el chat seleccionado.");
       }
@@ -61,45 +62,43 @@ export class ChatComponent implements OnInit {
       console.log("No se envió el mensaje: No se ha seleccionado un chat.");
     }
   }
-  
 
-async cargarChat() {
-  if(this.selectedUid){ 
-    try {
-    this.chats = await this.chatService.cargarMensajes(this.currentUser, this.selectedUid);
-    const chat = this.chats.find((chat) => chat.id);
-    const chatId = chat?.id;
-    if(chatId){
-      this.mensajes = await this.chatService.obtenerMensajesDelChat(chatId)
-      console.log("tamaño:"+this.chats.length, this.mensajes)
-    }   
-    this.mostrarMensajesEnConsola()
-   } catch (error) {
-    console.error('Error al cargar mensajes:', error);
+  async cargarChat() {
+    if (this.selectedUid) {
+      try {
+        this.chats = await this.chatService.cargarMensajes(this.currentUser, this.selectedUid);
+        const chat = this.chats.find((chat) => chat.id);
+        const chatId = chat?.id;
+        if (chatId) {
+          this.mensajes = await this.chatService.obtenerMensajesDelChat(chatId);
+          console.log("tamaño:" + this.chats.length, this.mensajes);
+        }
+        this.mostrarMensajesEnConsola();
+      } catch (error) {
+        console.error('Error al cargar mensajes:', error);
+      }
+    }
   }
-}
-}
 
-
-
-mostrarMensajesEnConsola() {
-  this.chats.forEach((chat: Chat) => {
-    console.log(`Chat ID: ${chat.id}`);
-    if(chat.participantes.length >= 1){
-     console.log("hay participantes")
-    }
-    if(chat.mensajes.length >= 1){
-      console.log("hay mensajes")
-
-    }
-    chat.participantes.forEach((participantes) => {
-      console.log(`Remitente: ${participantes}`);
-      console.log('-------------------------');
+  mostrarMensajesEnConsola() {
+    this.chats.forEach((chat: Chat) => {
+      console.log(`Chat ID: ${chat.id}`);
+      if (chat.participantes.length >= 1) {
+        console.log("hay participantes");
+      }
+      if (chat.mensajes.length >= 1) {
+        console.log("hay mensajes");
+      }
+      chat.participantes.forEach((participantes) => {
+        console.log(`Remitente: ${participantes}`);
+        console.log('-------------------------');
+      });
     });
-  });
-}
+  }
 
-
-
-
+  scrollToLastElement() {
+    if (this.scrollableList) {
+      this.scrollableList.nativeElement.scrollTop = this.scrollableList.nativeElement.scrollHeight;
+    }
+  }
 }

@@ -3,13 +3,14 @@ import { FieldValue, Firestore, QuerySnapshot, addDoc, collection, doc, getDocs,
 import { Chat } from '../model/chat';
 import { v4 as uuidv4 } from 'uuid';
 import { Mensaje } from '../model/mensaje';
+import { Auth, UserInfo } from '@angular/fire/auth';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChatServiceService {
 
-  constructor(private firestore: Firestore) { }
+  constructor(private firestore: Firestore, private afAuth: Auth) { }
 
   createChat(participantes: string[]): void {
     const chatId = uuidv4();
@@ -32,6 +33,8 @@ export class ChatServiceService {
       });
   }
 
+  
+
   async enviarMensaje(chatId: string, remitente: string, contenido: string): Promise<void> {
     try {
         const mensajes = await this.obtenerMensajesDelChat(chatId);
@@ -40,7 +43,7 @@ export class ChatServiceService {
         const nuevaPosicion = ultimaPosicion + 1;
 
         const mensaje: Mensaje = {
-            id: nuevaPosicion, // Convierte el ID a cadena
+            id: Date.now(),
             remitente: remitente,
             contenido: contenido,
             fechaEnvio: serverTimestamp(),

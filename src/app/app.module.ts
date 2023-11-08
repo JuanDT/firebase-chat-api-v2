@@ -21,6 +21,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AmigosModule } from './amigos/amigos.module';
 import { AnadirAmigoComponent } from './components/anadir-amigo/anadir-amigo.component';
 import { DeleteConfirmationComponent } from './components/delete-confirmation/delete-confirmation.component';
+import { ClearConfirmationModalComponent } from './components/clear-confirmation-modal/clear-confirmation-modal.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { DeleteConfirmationComponent } from './components/delete-confirmation/de
     StartComponent,
     PageNotFoundComponent,
     AnadirAmigoComponent,
-    DeleteConfirmationComponent
+    DeleteConfirmationComponent,
+    ClearConfirmationModalComponent
   ],
   imports: [
     provideFirebaseApp(() => initializeApp(environment.firebase)),

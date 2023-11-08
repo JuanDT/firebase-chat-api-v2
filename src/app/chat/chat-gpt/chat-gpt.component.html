@@ -1,23 +1,34 @@
-<div class="chat-container">
+<div class="container">
+  <div class="chat-container">
     <div class="chat-header">
       <h2>IA Chatmart</h2>
     </div>
     <div class="chat-messages">
-      <div class="row message">
-        <div class="col-12 respuesta scrollable-list">
+      <div class="message">
+        <div class="respuesta scrollable-list" #scrollableList>
           <ul *ngFor="let mensaje of msg" class="list-group mb-2" [ngClass]="{'user-message': mensaje.remitente  != 'openAi', 'openai-message': mensaje.remitente === 'openAi'}">
-            <li [ngClass]="{'user-message-text': mensaje.remitente  != 'openAi', 'openai-message-text': mensaje.remitente === 'openAi'}" class="list-group-item text-light" [ngStyle]="{'background-color': mensaje.remitente === 'openAi' ? 'rgb(127, 130, 130)' : 'rgb(32, 210, 230)'}">{{ mensaje.contenido }}</li><br>
-          </ul>  
+            <li [ngClass]="{'user-message-text': mensaje.remitente  != 'openAi', 'openai-message-text': mensaje.remitente === 'openAi'}" class="list-group-item text-light" [ngStyle]="{'background-color': mensaje.remitente === 'openAi' ? 'rgb(127, 130, 130)' : 'rgb(25, 151, 164)'}" style="border-radius: 5px;">{{ mensaje.contenido }}</li><br>
+          </ul>
           <div class="respuesta-temp">
-          </div>      
+          </div>
         </div>
       </div>
     </div>
-    
+    <div *ngIf="isSendingMessage" class="spinner">
+      <div class="spinner-grow" role="status" *ngIf="isSendingMessage">
+        <span class="visually-hidden">Loading...</span>            
+      </div>
+      <div class="spinner-grow" role="status" *ngIf="isSendingMessage">
+        <span class="visually-hidden">Loading...</span>            
+      </div>
+      <div class="spinner-grow" role="status" *ngIf="isSendingMessage">
+        <span class="visually-hidden">Loading...</span>            
+      </div>
+    </div>
     <div class="chat-input">
       <input [(ngModel)]="message" type="text" placeholder="Envía un mensaje">
-      <button  class="send" (click)="sendMessage()" >Enviar</button>
-      <button class="clear" (click)="clear()" >Limpiar</button>
+      <button class="send" (click)="sendMessage()">Enviar</button>
+      <button class="clear" (click)="clear()">Limpiar</button>
     </div>
   </div>
-  
+</div>

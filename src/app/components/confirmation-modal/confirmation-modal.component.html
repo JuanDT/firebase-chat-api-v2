@@ -1,13 +1,14 @@
 <div>  
-   <div class="modal-header">
-        <h4 class="modal-title">Confirmación</h4>
-        <button type="button" class="close" aria-label="Cerrar" (click)="activeModal.dismiss('Cerrar')">
-        <span aria-hidden="true">&times;</span>
-        </button>
+   <div class="modal-header text-center">
+            <div class="mx-auto">
+                <h4 class="modal-title"><img src="../../../assets/images/logoutIcon.png" width="10%" alt=""></h4>
+            </div>
     </div>
-  <div class="modal-body">
+  <div class="modal-body text-center">
             ¿Deseas cerrar sesión?
-        </div>
+   </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-primary" (click)="activeModal.close('Cerrar')">Cerrar sesión</button>
- </div>
+            <button type="button" class="btn btn-secondary" (click)="activeModal.close('Cerrar')">Cerrar sesión</button>
+            <button type="button" class="btn btn-secondary" (click)="activeModal.dismiss('Cerrar')">Volver</button>
+       </div>
+</div>

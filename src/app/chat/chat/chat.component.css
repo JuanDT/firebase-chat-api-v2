@@ -23,6 +23,24 @@
 }
 
 
+.scrollable-list {
+    max-height: 300px;
+    overflow-y: auto;
+    scrollbar-width: none; 
+  }
+  
+  .scrollable-list::-webkit-scrollbar {
+    width: 0.5rem; 
+  }
+  
+  .scrollable-list::-webkit-scrollbar-thumb {
+    background-color: #888;
+  }
+  
+  .scrollable-list::-webkit-scrollbar-track {
+    background: transparent; 
+  }
+
 .imgEnviar:active{
    transform: scale(0.9);
 }

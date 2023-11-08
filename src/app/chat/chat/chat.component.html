@@ -4,7 +4,7 @@
       <div class="card-header">
         <!-- Encabezado del chat -->
       </div>
-      <div class="card-body" style="overflow-y: auto; max-height: 500px;">
+      <div class="card-body scrollable-list" style="overflow-y: auto; max-height: 500px;" #scrollableList>
         <div>
           <ng-container *ngFor="let chat of chats">
             <ng-container *ngFor="let mensaje of chat.mensajes">
