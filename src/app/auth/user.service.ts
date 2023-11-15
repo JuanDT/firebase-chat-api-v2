@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Auth, createUserWithEmailAndPassword, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, signInWithPopup, GoogleAuthProvider, fetchSignInMethodsForEmail, user, User } from '@angular/fire/auth';
+import { Auth, createUserWithEmailAndPassword, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, signInWithPopup, GoogleAuthProvider, fetchSignInMethodsForEmail, user, User, updateProfile } from '@angular/fire/auth';
 import { Observable } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
 import { getStorage, ref, uploadBytes, getDownloadURL  } from 'firebase/storage';
@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 import { Firestore, collection, setDoc, doc, addDoc } from '@angular/fire/firestore';
 import {  getFirestore, updateDoc } from 'firebase/firestore';
 import { Usuario } from '../model/usuario';
-import { initializeApp } from '@angular/fire/app';
+import { getApps, initializeApp } from '@angular/fire/app';
 import { environment } from 'src/environments/environment';
  
 
@@ -17,6 +17,8 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class UserService {
+
+
   getAuthenticatedUser() {
     throw new Error('Method not implemented.');
   }
@@ -27,7 +29,10 @@ export class UserService {
  
   private authenticated = false;
 
+  private storage: any;
+
   constructor(private auth: Auth, private firestore: Firestore) {
+   
    }
 
    isAuthenticated(): boolean {
@@ -46,6 +51,42 @@ export class UserService {
     const docu = setDoc(docRef, user);
     console.log("documento: "+docu)
   }
+
+ async savePhoto(user:User,photo: any):Promise<boolean>{
+    updateProfile(user, { displayName: user.displayName })
+            .then( () => {
+              if (photo) {
+                
+                
+                const storageRef = ref(this.storage, `profile_photos/${user.uid}`);
+                const photoBlob = new Blob([photo as BlobPart], { type: 'image/jpeg' }); 
+
+                uploadBytes(storageRef, photoBlob).then(() => {
+
+                  console.log('Usuario registrado con nombre y foto de perfil:', user);
+                  console.log("hay imagen")
+
+                  return true
+                  
+                });
+              } else {
+
+                console.log('Usuario registrado con nombre:', user);
+                console.log("No hay imagen")
+                return true;
+
+              }
+                                            
+                return false; 
+            })
+            .catch((error) => {
+              console.error('Error al actualizar el perfil:', error);
+              return false;
+            });
+            return false;
+  }
+
+  
 
   async actualizarNickname(nuevoNickname: string): Promise<void> {
     try {
