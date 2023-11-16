@@ -12,7 +12,6 @@ export class DeleteConfirmationComponent implements OnInit {
   friendDisplayName: string = '';
 
   constructor(public activeModal: NgbActiveModal) {
-    
    }
 
   ngOnInit(): void {

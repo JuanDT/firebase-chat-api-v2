@@ -52,49 +52,49 @@
                             
                         </form>
 
-                        <!-- Ventana emergente para restablecer la contraseña -->
-                        <div *ngIf="isForgotPasswordModalOpen" class="popup">
+                            <!-- Ventana emergente para restablecer la contraseña -->
+                            <div *ngIf="isForgotPasswordModalOpen" class="popup">
 
-                            <div class="popup-content">
-                            <h4 class="text-center">Restablecer Contraseña</h4>
-                            <br>
-                     
-                            <div class="form-group" >                                
-                               
-                                <div class="row justify-content-center">
-                                    <div class="col-9">
-                                        <input type="email" class="col-7 form-control" placeholder="Ingrese su email" id="resetEmail" [(ngModel)]="email">
-                                    </div>
-                                </div>
-                                <div class="mt-1">
-                                    <div *ngIf="forgotPasswordError" class="text-danger">
-                                        <p style="font-size: 90%;">{{ forgotPasswordError }}</p>
-                                    </div>
-                                    <div *ngIf="passwordSendSucces" > 
-                                        <p style="font-size: 90%; color: rgba(0, 122, 28, 0.704);">{{ passwordSendSucces }}</p> 
-                                    </div>  
-                                </div>
-                                 
+                                <div class="popup-content">
+                                <h4 class="text-center">Restablecer Contraseña</h4>
+                                <br>
+                        
+                                <div class="form-group" >                                
                                 
-                                <div class="text-center mt-4">
-                                    <button class="btn btn-primary" style="width: 25%;" *ngIf="isOkButtonEnable" (click)="enabledOkButton()">Ok</button>
-                                    <button class="btn btn-primary btn-spacing" *ngIf="isSendButtonEnable" (click)="sendPasswordResetEmail2(email)">Enviar Correo</button>
-                                    <button class="btn btn-secondary btn-spacing" *ngIf="isCancelButtonEnable" (click)="closeForgotPasswordModal()">Cancelar</button>
-                                  </div>
+                                    <div class="row justify-content-center">
+                                        <div class="col-9">
+                                            <input type="email" class="col-7 form-control" placeholder="Ingrese su email" id="resetEmail" [(ngModel)]="email">
+                                        </div>
+                                    </div>
+                                    <div class="mt-1">
+                                        <div *ngIf="forgotPasswordError" class="text-danger">
+                                            <p style="font-size: 90%;">{{ forgotPasswordError }}</p>
+                                        </div>
+                                        <div *ngIf="passwordSendSucces" > 
+                                            <p style="font-size: 90%; color: rgba(0, 122, 28, 0.704);">{{ passwordSendSucces }}</p> 
+                                        </div>  
+                                    </div>
+                                    
+                                    
+                                    <div class="text-center mt-4">
+                                        <button class="btn btn-primary" style="width: 25%;" *ngIf="isOkButtonEnable" (click)="enabledOkButton()">Ok</button>
+                                        <button class="btn btn-primary btn-spacing" *ngIf="isSendButtonEnable" (click)="sendPasswordResetEmail2(email)">Enviar Correo</button>
+                                        <button class="btn btn-secondary btn-spacing" *ngIf="isCancelButtonEnable" (click)="closeForgotPasswordModal()">Cancelar</button>
+                                    </div>
+                                    
+        
+                                    </div>                         
+                                </div>                     
                                 
-    
-                                </div>                         
-                            </div>                     
-                            
-                            
-                        </div>
-                        <div class="text-center mt-4">
-                            <div class="small-text">
-                                <button (click)="onClick()" class="transparent-button">
-                                    <img src="https://premium-graphic.com/wp-content/uploads/2020/12/Download-Google-icon-vector-logo.png" alt="" width="50px">
-                                    <p class="small-text">Or sign in with Google</p>
-                                </button>
-                            </div>
+                                
+                           </div>
+                            <div class="text-center mt-4">
+                                <div class="small-text">
+                                    <button (click)="onClick()" class="transparent-button">
+                                        <img src="https://premium-graphic.com/wp-content/uploads/2020/12/Download-Google-icon-vector-logo.png" alt="" width="50px">
+                                        <p class="small-text">Or sign in with Google</p>
+                                    </button>
+                                </div>
                         </div>
 
                         <p class="text-center mt-4">¿No tienes una cuenta?<a style="text-decoration: none" [routerLink]="['/auth/register']"> Registrarse</a></p>

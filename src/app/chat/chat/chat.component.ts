@@ -21,6 +21,8 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   chats: Chat[] = [];
   mensajes: Mensaje[] = [];
 
+  inputAlert:boolean = false;
+
   @ViewChild('scrollableList', { read: ElementRef }) scrollableList!: ElementRef;
 
   constructor(private authService: UserService, private auth: Auth, private chatService: ChatServiceService, private amigosService: AmigosService) {

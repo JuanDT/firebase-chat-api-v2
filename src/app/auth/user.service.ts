@@ -32,7 +32,6 @@ export class UserService {
   private storage: any;
 
   constructor(private auth: Auth, private firestore: Firestore) {
-   
    }
 
    isAuthenticated(): boolean {

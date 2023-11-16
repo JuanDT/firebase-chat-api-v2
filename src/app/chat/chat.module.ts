@@ -11,8 +11,7 @@ import { ChatGPTComponent } from './chat-gpt/chat-gpt.component';
 @NgModule({
   declarations: [
     ChatComponent,
-    ChatGPTComponent
-    
+    ChatGPTComponent   
   ],
   imports: [
     CommonModule,

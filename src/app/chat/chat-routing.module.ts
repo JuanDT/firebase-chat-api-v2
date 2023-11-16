@@ -4,8 +4,6 @@ import { ChatComponent } from './chat/chat.component';
 import { ChatGPTComponent } from './chat-gpt/chat-gpt.component';
 
 const routes: Routes = [
-  { path: '', component: ChatComponent },
-  { path: 'chatGPT', component: ChatGPTComponent }
 ];
 
 @NgModule({

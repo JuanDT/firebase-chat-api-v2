@@ -18,7 +18,7 @@ import { FooterModule } from '../footer/footer.module';
     DashboardRoutingModule,
     MainModule,
     NavModule,
-     FooterModule
+    FooterModule
   
   ], exports:[DashboardComponent]
 })
