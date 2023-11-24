@@ -45,18 +45,7 @@
                               <div *ngIf="showPasswordLengthError" class="text-danger">{{ passwordLengthError }}</div>
                             </div>
                           
-                            <!-- Campo de foto de perfil -->
-                            <div class="mb-3">
-                                <label for="fotoPerfil" class="form-label">Foto de Perfil</label>
-                                <input type="file" class="form-control" id="photo"  (change)="onFileSelected($event)">
-                                
-                                <!-- Visualización de la imagen seleccionada -->
-                                <div *ngIf="formReg.value.photo">
-                                <img [src]="formReg.value.photoUrl" alt="Foto de Perfil" class="mt-2 mb-2" style="max-width: 100px;" >
-                                <button class="btn btn-danger btn-sm" (click)="onDeletePhoto()">Eliminar Foto</button>
-                                </div>
-                            </div>
-                            
+                           
                               <!-- Botón para reiniciar la selección de archivos -->
                               <button *ngIf="formReg.value.photo" class="btn btn-warning btn-sm" (click)="onResetFile()">Cambiar Foto</button>
                                                              
